@@ -17,6 +17,7 @@ module.exports = {
       },
     },
     extend: {
+      // fontFamily: "Inter",
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,6 +52,8 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gray_fundo_mtfu: '#222222',
+        gray_fundo_sec_mtfu: '#2E2E2E',
       },
       borderRadius: {
         lg: "var(--radius)",

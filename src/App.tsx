@@ -1,16 +1,13 @@
 
-// import { Button } from "@/components/button"
-
-import { Button } from "@/components/ui/button";
+import { RouterProvider } from 'react-router-dom'
 import './global.css';
+import { Router } from "./Router";
 
 export function App() {
 
   return (
     <>
-      <Button>
-        Teste
-      </Button>
+      <RouterProvider router={Router} />
     </>
   )
 }
