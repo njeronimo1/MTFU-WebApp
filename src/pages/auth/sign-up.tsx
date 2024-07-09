@@ -22,12 +22,12 @@ export function SignUp(){
                 </div>
                 
                 <div className="bg-gray_fundo_mtfu p-8 w-full rounded-xl gap-6 flex flex-col">
-                    <Input label="Login" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" />
-                    <Input label="Empresa" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" />
-                    <Input label="Senha" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" />
-                    <Input label="Confirme a senha" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" />
+                    <Input label="Login" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="text"  />
+                    <Input label="Empresa" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="text" />
+                    <Input label="Senha" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="password" />
+                    <Input label="Confirme a senha" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="password" />
 
-                    <Button children="Cadastrar" variant="normal" />
+                    <Button children="Cadastrar" variant="normal" textAlign="center" radius="8" />
                 </div>
                 
             </div>

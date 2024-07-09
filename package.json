@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mtfu/react": "^2.0.0",
-    "@mtfu/tokens": "^2.1.0",
+    "@mtfu/react": "^3.0.0",
+    "@mtfu/tokens": "^3.0.0",
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
