@@ -1,8 +1,13 @@
 import { Button, Input, Typografy } from "@mtfu/react";
 import {useNavigate} from "react-router-dom"
 
-import ArrowLeft from "../../assets/icons_radix/arrow-left.svg"
 
+
+//imgs
+
+import ArrowLeft from "../../assets/icons_radix/arrow-left.svg"
+import eyeOpen from "../../assets/icons_radix/eye-open.svg"
+import eyeClosed from "../../assets/icons_radix/eye-closed.svg"
 
 export function SignUp(){
 
@@ -24,8 +29,10 @@ export function SignUp(){
                 <div className="bg-gray_fundo_mtfu p-8 w-full rounded-xl gap-6 flex flex-col">
                     <Input label="Login" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="text"  />
                     <Input label="Empresa" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="text" />
-                    <Input label="Senha" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="password" />
-                    <Input label="Confirme a senha" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="password" />
+                    <Input label="Senha" optional={false} variant="password" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="password"
+                    imagesPassword={{eyeClosed: eyeClosed, eyeOpen: eyeOpen}} />
+                    <Input label="Confirme a senha" optional={false} variant="password" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" type="password" 
+                    imagesPassword={{eyeClosed: eyeClosed, eyeOpen: eyeOpen}}/>
 
                     <Button children="Cadastrar" variant="normal" textAlign="center" radius="8" />
                 </div>
