@@ -54,6 +54,7 @@ module.exports = {
         },
         gray_fundo_mtfu: '#222222',
         gray_fundo_sec_mtfu: '#2E2E2E',
+        mtfu: '#6111CA',
       },
       borderRadius: {
         lg: "var(--radius)",
