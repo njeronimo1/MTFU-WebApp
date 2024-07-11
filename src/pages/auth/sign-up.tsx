@@ -9,6 +9,7 @@ import ArrowLeft from "../../assets/icons_radix/arrow-left.svg"
 import eyeOpen from "../../assets/icons_radix/eye-open.svg"
 import eyeClosed from "../../assets/icons_radix/eye-closed.svg"
 
+
 export function SignUp(){
 
     const navigate = useNavigate();
@@ -22,6 +23,8 @@ export function SignUp(){
                     onClick={() => {navigate("/sign-in")}}>
                         <img src={ArrowLeft} alt="right" />
                         <Typografy align="right" color="#FFF" fontWeight={500} type="medium" children="Login" />
+
+                        
                         
                     </div>
                 </div>
@@ -38,6 +41,8 @@ export function SignUp(){
                 </div>
                 
             </div>
+
+            
         </>
     )
 }
