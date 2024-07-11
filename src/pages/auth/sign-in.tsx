@@ -14,7 +14,7 @@ export function SignIn() {
 
     return(
         <>
-            <div className="flex flex-col gap-4 p-8 w-2/4">
+            <div className="flex flex-col gap-4 p-8 w-full lg:w-2/4">
                 <Typografy align="left" color="#FFF" fontWeight={700} type="title" children="Digite seu login e senha" />
                 <div className="bg-gray_fundo_mtfu p-8 w-full rounded-xl gap-4 flex flex-col">
                     <Input label="Login" optional={false} variant="text" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" 
@@ -32,7 +32,6 @@ export function SignIn() {
                         <img src={ArrowRight} alt="right" />
                     </div>
                 </div>
-                
             </div>
         </>
     )

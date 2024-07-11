@@ -16,7 +16,7 @@ export function SignUp(){
 
     return(
         <>
-            <div className="flex flex-col gap-4 p-8 w-2/4">
+            <div className="flex flex-col gap-4 p-8 w-full lg:w-2/4">
                 <div className="w-full flex align-center justify-between">
                     <Typografy align="left" color="#FFF" fontWeight={700} type="title" children="Preencha os dados" />
                     <div className="flex w-1/3 justify-end text-white gap-2 items-center cursor-pointer hover:opacity-80"
