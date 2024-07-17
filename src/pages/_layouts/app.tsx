@@ -2,6 +2,7 @@ import { Menu } from "@/components/Menu/Menu";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Home } from "../app/home";
+import { Outlet } from 'react-router-dom'
 
 import {
     DropdownMenu,
@@ -29,15 +30,13 @@ export function AppLayout(){
     return(
         <>
             <div className="w-full flex">
-                <div className="hidden lg:flex w-1/12 bg-gray_fundo_mtfu h-screen">
+                <div className="hidden lg:flex w-1/6 bg-gray_fundo_mtfu h-screen">
                     <Menu />
-
-                    
                 </div>
                 <div className="lg:hidden absolute top-0 left-0">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <button >Open</button>
+                            <button>Open</button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -53,8 +52,8 @@ export function AppLayout(){
                         </DropdownMenuContent>
                         </DropdownMenu>
                 </div>
-                <div className="w-full lg:w-11/12 bg-gray_fundo_sec_mtfu h-screen py-12 pl-20 pr-20">
-                    <Home />
+                <div className="w-full lg:w-5/6 bg-gray_fundo_sec_mtfu h-screen ">
+                    <Outlet />
                 </div>
             </div>
         </>

@@ -2,12 +2,20 @@
 import {useLocation, useNavigate} from 'react-router-dom'
 import {colors} from '@mtfu/tokens'
 
+import { Separator } from "@/components/ui/separator"
+import { CaretDown, ChartLineUp, CheckSquareOffset, GearSix, Kanban, ProjectorScreenChart, Archive as ReportIcon, SignOut, UserCircle } from 'phosphor-react'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "@/components/ui/popover"
+  
+
+
 //imgs
-import Home from '../../assets/icons_radix/home.svg'
-import Archive from '../../assets/icons_radix/archive.svg'
-import LightningBolt from '../../assets/icons_radix/lightning-bolt.svg'
-import Pencil2 from '../../assets/icons_radix/pencil-2.svg'
+import logo from '../../assets/+up.svg';
 import { useEffect, useState } from 'react'
+import { Typografy } from '@mtfu/react'
 
 
 export function Menu(){
@@ -41,27 +49,104 @@ export function Menu(){
 
     return(
         <>
-            <div className="w-full h-screen flex flex-col align-center py-16">
-                <div className='w-full py-6 pb-6 flex align-center justify-center'
-                    style={routerActually == 'home' ? {borderRight: `0.15rem solid ${colors.mtfu}`} : {}}
+            <div className="w-full h-screen flex flex-col align-center relative">
+                <div className='flex align-center justify-start p-4'>
+                    <img src={logo} alt="+up" />
+                </div>
+                <Separator color='#1A1919' className='bg-separator_menu'/>
+                <div className='w-full p-4'>
+                    <Typografy align='left' children='Menu' fontWeight={400} color='#878787' type='footer'/>
+                </div>
+                <div className='w-full py-2 pb-2 pl-4 mt-2 mb-2 flex align-middle justify-start gap-3 cursor-pointer'
+                    style={routerActually == 'home' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
                     onClick={() => {redirectForRoute('home')}}
                 >
-                    <img src={Home} alt="" className='w-6'/>
+                    <ChartLineUp size={32} color={routerActually == 'home' ? 'white' : '#878787'}/>
+                    <div className='w-full mt-1.5'>
+                      <Typografy align='left' children='Dashboard' fontWeight={500} color={routerActually == 'home' ? 'white' : '#878787'} type='medium'/>
+                    </div>
                 </div>
-                <div className='w-full py-6 pb-6 flex align-center justify-center'
-                style={routerActually == 'project' ? {borderRight: `0.15rem solid ${colors.mtfu}`} : {}}
+                <div className='w-full py-2 pb-2 pl-4 mt-2 mb-2 flex align-middle justify-start gap-3 cursor-pointer'
+                style={routerActually == 'project' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
                 onClick={() => {redirectForRoute('project')}}>
-                    <img src={Archive} alt="" className='w-6'/>
+                    <ProjectorScreenChart size={32} color={routerActually == 'project' ? 'white' : '#878787'}/>
+                    <div className='w-full mt-1.5'>
+                    <Typografy align='left' children='Projetos' fontWeight={500} color={routerActually == 'project' ? 'white' : '#878787'} type='medium'/>
+                    </div>
+                    
                 </div>
-                <div className='w-full py-6 pb-6 flex align-center justify-center'
-                style={routerActually == 'sprints' ? {borderRight: `0.15rem solid ${colors.mtfu}`} : {}}
+                <div className='w-full py-2 pb-2 pl-4 mt-2 mb-2 flex align-center justify-start gap-3 cursor-pointer'
+                style={routerActually == 'sprints' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
                 onClick={() => {redirectForRoute('sprints')}}>
-                    <img src={LightningBolt} alt="" className='w-6'/>
+                   <Kanban size={32} color={routerActually == 'sprints' ? 'white' : '#878787'}/>
+
+                    <div className='w-full mt-1.5'>
+                    <Typografy align='left' children='Sprints' fontWeight={500} color={routerActually == 'sprints' ? 'white' : '#878787'} type='medium'/>
+                    </div>
+                    
                 </div>
-                <div className='w-full py-6 pb-6 flex align-center justify-center'
-                style={routerActually == 'tasks' ? {borderRight: `0.15rem solid ${colors.mtfu}`} : {}}
+                <div className='w-full py-2 pb-2 pl-4 mt-2 mb-2 flex align-center justify-start gap-3 cursor-pointer'
+                style={routerActually == 'tasks' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
                 onClick={() => {redirectForRoute('tasks')}}>
-                    <img src={Pencil2} alt="" className='w-6'/>
+                    <CheckSquareOffset size={32} color={routerActually == 'tasks' ? 'white' : '#878787'}/>
+
+                    <div className='w-full mt-1.5'>
+                    <Typografy align='left' children='Tasks' fontWeight={500} color={routerActually == 'tasks' ? 'white' : '#878787'} type='medium'/>
+                    </div>
+                    
+                </div>
+
+                <div className='w-full py-2 pb-2 pl-4 mt-2 mb-2 flex align-center justify-start gap-3 cursor-pointer'
+                style={routerActually == 'tasks' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
+                onClick={() => {redirectForRoute('tasks')}}>
+                    {/* <img src={Pencil2} alt="" className='w-6'/> */}
+                    <ReportIcon size={32} color={routerActually == 'reports' ? 'white' : '#878787'}/>
+
+                        <div className='w-full mt-1.5'>
+                        <Typografy align='left' children='Relatorios' fontWeight={500} color={routerActually == 'tasks' ? 'white' : '#878787'} type='medium'/>
+                        </div>
+                    
+                </div>
+
+
+                <div className='w-full flex flex-col align-center absolute bottom-0 '>
+                    <Separator className='bg-separator_menu' />
+
+                    <div className='flex gap-2 py-3 pb-4 pl-4 align-middle'>
+                        <GearSix size={32} color='#878787'/>
+                        <div className=' mt-1.5'>
+                            <Typografy align='center' children='Configuracoes' color='#878787' fontWeight={400} type='medium'/>
+                        </div>
+                        
+                    </div>
+
+                    <div className='flex gap-2 py-3 pb-3 pl-4 bg-white rounded-t-xl'>
+                        <UserCircle size={42} color={colors.mtfu}/>
+                        <div className='w-full flex justify-between pr-4 align-center'>
+                            <div className='flex align-center flex-col'>
+                                <Typografy align='left' children='Nicolas Jeronimo' color={colors.mtfu} fontWeight={500} type='medium'/>
+                                <Typografy align='left' children='Front-end' color='#878787' fontWeight={400} type='footer'/>
+                            </div>
+                            
+                            <div className='cursor-pointer hover:opacity-80'>
+                                <Popover>
+                                    <PopoverTrigger>
+                                    <CaretDown size={20} color='#878787' weight='bold'/>
+                                    </PopoverTrigger>
+                                    <PopoverContent className='bg-gray_fundo_mtfu border-mtfu'>
+                                        <div className='flex gap-2 cursor-pointer hover:brightness-150' onClick={() => {navigate('/sign-in')}}>
+                                            <SignOut size={20} color='#878787' />
+
+                                            <Typografy align='left' children='Logout' color='#878787' fontWeight={400} type='medium'/>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+
+                            
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

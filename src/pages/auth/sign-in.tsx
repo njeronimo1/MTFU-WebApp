@@ -22,9 +22,11 @@ export function SignIn() {
                     <Input label="Senha" optional={false} variant="password" onChange={() => {}} placeholder="Digite aqui..." errorMessage="" imgSearch="" 
                     type="password" imagesPassword={{eyeOpen: eyeOpen, eyeClosed: eyeClosed}}/>
 
-                    <Button  variant="normal" textAlign="center" radius="8">
-                        Entrar
-                    </Button>
+
+                    <Button  variant="normal" textAlign="center" radius="8" >
+                        Entrar                    
+                        </Button>
+
 
                     <div className="flex w-full justify-end text-white gap-2 items-center cursor-pointer hover:opacity-80"
                     onClick={() => {navigate("/sign-up")}}>

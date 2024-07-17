@@ -52,8 +52,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        gray_fundo_mtfu: '#222222',
-        gray_fundo_sec_mtfu: '#2E2E2E',
+        gray_text: "#878787",
+        gray_fundo_mtfu: '#121212',
+        gray_fundo_sec_mtfu: '#171717',
+        separator_menu: '#1A1919',
+        separator_app: '#282828',
         mtfu: '#6111CA',
       },
       borderRadius: {
