@@ -32,9 +32,7 @@ export function Home(){
             
             <DashADM />
 
-            {openFilter && (
-                <Filter onClose={setOpenFilter}/>
-            )}
+
         </div>
     )
 }
