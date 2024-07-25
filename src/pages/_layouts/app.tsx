@@ -29,7 +29,7 @@ export function AppLayout(){
 
     return(
         <>
-            <div className="w-full flex overflow-hidden">
+            <div className="w-full flex lg:overflow-hidden">
                 <div className="hidden lg:flex w-1/6 bg-gray_fundo_mtfu h-screen">
                     <Menu />
                 </div>

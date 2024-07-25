@@ -13,6 +13,7 @@ import {
 import { Bar, BarChart, ResponsiveContainer } from "recharts";
 import { colors } from "@mtfu/tokens";
 import { Separator } from "@/components/ui/separator";
+import { CardUser } from "../CardUser/CardUser";
 
 
 const data = [
@@ -106,7 +107,9 @@ export function DashADM(){
             <main className='w-full  flex '>
                 {/* dados filtrados por projeto */}
                 <div className='w-3/4 flex flex-col  border-r border-separator_app' >
-                    <div className="w-full flex justify-between gap-2 py-5 pl-10  pr-8">
+                    <div className="w-full flex justify-between gap-2 py-5 
+                    lg:pl-5 pr-4
+                    2xl:pl-10  2xl:pr-8">
                         <div className="flex flex-col gap-1">
                             <span className='text-2xl text-white font-semibold '>Andamento dos projetos ativos</span>
                             <Typografy children='Filtre por um projeto para obter a relação entre pontos entregues ao longo do percurso e informações sobre a sprint atual.' type='footer' align='left' color='#878787' fontWeight={500}/>
@@ -127,7 +130,9 @@ export function DashADM(){
                         </div>
                     </div>
 
-                    <div className='w-full md:h-32 lg:h-52 xl:h-42 2xl:h-72 lg:mt-8 xl:mt-0 py-5 pl-6  pr-6'>
+                    <div className='w-full md:h-32 lg:h-48 xl:h-42 2xl:h-72 lg:mt-0 xl:mt-0 py-5 
+                    lg:pl-5 pr-4
+                    2xl:pl-10  2xl:pr-8'>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart width={150} height={300} data={dataPointDelivery}>
                                     <Bar dataKey="pontos" fill={colors.mtfu} />
@@ -140,8 +145,10 @@ export function DashADM(){
 
                     <Separator className='bg-separator_app' />
 
-                    <div className='w-3/4 flex flex-col w-full' >
-                        <div className="flex flex-col justify-start align-baseline py-5 pl-10  pr-8 gap-1">
+                    <div className=' flex flex-col w-full' >
+                        <div className="flex flex-col justify-start align-baseline py-5 
+                        lg:pl-5 pr-4
+                        2xl:pl-10  2xl:pr-8 gap-1">
                             <Typografy align="left" children="Sprint ativa" color="white" fontWeight={400} type="title" />
                             
                             <div className="flex gap-4">
@@ -162,16 +169,18 @@ export function DashADM(){
                             </div>
                         </div>
 
-                        <div className="flex py-1 pl-10 pr-8 w-full gap-14">
+                        <div className="flex py-1 
+                        lg:pl-5 pr-4
+                        2xl:pl-10  2xl:pr-8 w-full lg:gap-2 2xl-gap-14">
                             <div className="bg-gray_fundo_mtfu w-1/3 lg:h-52 2xl:h-72 rounded-xl pl-4 py-2 items-start justify-start">
                                 <Typografy align="left" children="Pontos entregues (7 dias) " color="#878787" fontWeight={400} type="footer" />
 
-                                <div className="w-full lg:h-44 sm:h-30 py-2 pr-6 ">
+                                <div className="w-full lg:h-44 sm:h-30 2xl:h-64 py-2 pr-6 flex items-center">
                                   <ResponsiveContainer width="100%" height="100%">
 
                                     <LineChart width={300} height={100} data={data} 
                                     margin={{
-                                      top: 10,
+                                      top: 0,
                                       right: 0,
                                       left: -40,
                                       bottom: 0,
@@ -189,11 +198,11 @@ export function DashADM(){
                             
                             </div>
                             <div className="bg-gray_fundo_mtfu w-1/3 lg:h-52 2xl:h-72 rounded-xl pl-4 py-2">
-                                <Typografy align="left" children="Conclusao geral " color="#878787" fontWeight={400} type="footer" />
+                                <Typografy align="left" children="Conclusão geral " color="#878787" fontWeight={400} type="footer" />
                             
-                                <div className="w-full lg:h-44 sm:h-30 py-0 pr-6 ">
+                                <div className="w-full  lg:h-48 sm:h-30 2xl:h-64 py-0 pr-6">
                                   <ResponsiveContainer width="100%" height="100%">
-                                      <PieChart width={400} height={400} >
+                                      <PieChart width={100} height={100} >
                                         <Pie
                                           data={dataPie}
                                           cx="50%"
@@ -219,7 +228,8 @@ export function DashADM(){
                             <div className="bg-gray_fundo_mtfu w-1/3 lg:h-52 2xl:h-72 rounded-xl pl-4 py-2">
                                 <Typografy align="left" children="Pontos por usuario " color="#878787" fontWeight={400} type="footer" />
                             
-                                <div className="flex flex-col mt-3 max-h-40 overflow-scroll bg-local gap-4">
+                                <div className="flex flex-col mt-3 lg:max-h-40 2xl:max-h-60 overflow-y-auto scrollbar
+                                scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu gap-4">
 
                                   <div className="flex gap-2">
                                     <div className="flex items-center justify-center">
@@ -279,8 +289,34 @@ export function DashADM(){
                 
 
                 {/* dados filtrados por sprint e atalhos */}
-                <div className="w-1/4 ">
-                    Sprint e atalho
+                <div className="w-1/4 lg:py-2 2xl:py-4 lg:pl-5 pr-4
+                        2xl:pl-6  2xl:pr-6">
+                    <div className="flex items-center justify-between gap-1  ">
+                        <div className="w-1/2">
+                            <span className='text-2xl text-white font-semibold '>Atividade</span>
+                        </div>
+
+                        <div className="w-1/2">
+                            <Select>
+                                <SelectTrigger className="w-full bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
+                                    <SelectValue placeholder="Selecione uma sprint" />
+                                </SelectTrigger>
+                                <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
+                                    <SelectGroup>
+                                        {/* <SelectLabel>Fruits</SelectLabel> */}
+                                        <SelectItem value="1" className="hover:bg-mtfu">Sprint 1</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4 mt-5">
+                        <CardUser title="teste" sprint="100" status="Em andamento" dateEnd="22/07" dateInital="21/07" taskId="1" type="frontend" key={1} />
+                        <CardUser title="teste" sprint="100" status="Em andamento" dateEnd="22/07" dateInital="21/07" taskId="1" type="backend" key={1} />
+                        <CardUser title="teste" sprint="100" status="Em andamento" dateEnd="22/07" dateInital="21/07" taskId="1" type="designer" key={1} />
+                        <CardUser title="teste" sprint="100" status="Em andamento" dateEnd="22/07" dateInital="21/07" taskId="1" type="tester" key={1} />
+                    </div>
                 </div>
                 {/* <div className='w-full flex gap-4 mt-10'>
                     <div className='w-2/3 min-h-96 pr-4'>
