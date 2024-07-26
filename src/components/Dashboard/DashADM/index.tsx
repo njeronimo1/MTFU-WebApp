@@ -289,7 +289,7 @@ export function DashADM(){
                 
 
                 {/* dados filtrados por sprint e atalhos */}
-                <div className="w-1/4 lg:py-2 2xl:py-4 lg:pl-5 pr-4
+                <div className="w-1/4 lg:py-4 2xl:py-4 lg:pl-3 lg:pr-3
                         2xl:pl-6  2xl:pr-6">
                     <div className="flex items-center justify-between gap-1  ">
                         <div className="w-1/2">

@@ -20,7 +20,7 @@ export function CardUser({title, dateEnd, dateInital, sprint, status, type}: Car
                 <div className="flex gap-3 w-full items-center">
                     <div className="bg-mtfu w-2/12 rounded-full py-2.5 flex items-center justify-center">
                         {type == 'frontend' && (
-                            <Kanban size={30} color="white"/>
+                            <Kanban size={24} color="white"/>
                         )}
 
                         {type == 'backend' && (
