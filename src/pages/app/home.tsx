@@ -20,7 +20,7 @@ export function Home(){
 
     return(
         <div className='w-full'>
-            <header className='w-full flex justify-between align-center 
+            {/* <header className='w-full flex justify-between align-center 
             py-4 pl-4 pr-4
             2xl:py-6 2xl:pl-10 2xl:pr-10'>
                 <div className='flex flex-col align-center'>
@@ -29,8 +29,8 @@ export function Home(){
                 </div>
 
                 
-            </header>
-            <Separator className='bg-separator_app' />
+            </header> */}
+            {/* <Separator className='bg-separator_app' /> */}
             
             <DashADM />
 

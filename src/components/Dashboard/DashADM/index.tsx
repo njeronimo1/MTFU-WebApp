@@ -104,9 +104,9 @@ export function DashADM(){
 
 
     return(
-            <main className='w-full flex flex-col lg:flex-row bg-gray_fundo_sec_mtfu'>
+            <main className='w-full flex flex-col lg:flex-row bg-gray_fundo_sec_mtfu h-screen'>
                 {/* dados filtrados por projeto */}
-                <div className='w-full lg:w-3/4 flex flex-col ' >
+                <div className='w-full lg:w-3/4 flex flex-col border-r border-separator_app' >
                     <div className="w-full flex justify-between gap-2 py-5 pl-5 pr-4 2xl:pl-10  2xl:pr-8">
                         <div className="flex flex-col gap-1">
                             <span className='text-md lg:text-2xl text-white font-semibold '>Andamento dos projetos ativos</span>
@@ -127,7 +127,7 @@ export function DashADM(){
                         </div>
                     </div>
 
-                    <div className='w-full h-60 md:h-32 lg:h-48 xl:h-42 2xl:h-72 lg:mt-0 xl:mt-0 
+                    <div className='w-full h-60 md:h-32 lg:h-60 xl:h-80 2xl:h-80 lg:mt-0 xl:mt-0 
                      pr-12 py-5 lg:pl-5 lg:pr-4 2xl:pl-10  2xl:pr-8 '>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart width={150} height={300} data={dataPointDelivery}>
@@ -168,12 +168,12 @@ export function DashADM(){
                         py-1 pl-5 pr-4 2xl:pl-10 2xl:pr-8 gap-4
                         w-full lg:gap-2 2xl-gap-14">
                             <div className="bg-gray_fundo_mtfu w-full lg:w-1/3 items-start justify-start 
-                            h-60 lg:h-52 2xl:h-72 
+                            h-60 lg:h-60 2xl:h-72 
                             rounded-xl 
                             pl-4 py-2 ">
                                 <Typografy align="left" children="Pontos entregues (7 dias) " color="#878787" fontWeight={400} type="footer" />
 
-                                <div className="w-full h-56 lg:h-44 sm:h-30 2xl:h-64 py-2 pr-6 flex items-center">
+                                <div className="w-full h-56 lg:h-58 sm:h-30 2xl:h-64 py-2 pr-6 flex items-center">
                                   <ResponsiveContainer width="100%" height="100%">
 
                                     <LineChart width={300} height={100} data={data} 
@@ -195,10 +195,10 @@ export function DashADM(){
                                 </div>
                             
                             </div>
-                            <div className="bg-gray_fundo_mtfu w-full lg:w-1/3 h-60 lg:h-52 2xl:h-72 rounded-xl pl-4 py-2">
+                            <div className="bg-gray_fundo_mtfu w-full lg:w-1/3 h-60 lg:h-60 2xl:h-72 rounded-xl pl-4 py-2">
                                 <Typografy align="left" children="Conclusão geral " color="#878787" fontWeight={400} type="footer" />
                             
-                                <div className="w-full h-56  lg:h-48 sm:h-30 2xl:h-64 py-0 pr-6">
+                                <div className="w-full h-56  lg:h-58 sm:h-30 2xl:h-64 py-0 pr-6">
                                   <ResponsiveContainer width="100%" height="100%">
                                       <PieChart width={100} height={100} >
                                         <Pie
@@ -223,13 +223,13 @@ export function DashADM(){
                                 </div>
                                   
                             </div>
-                            <div className="bg-gray_fundo_mtfu w-full lg:w-1/3 h-60 lg:h-52 2xl:h-72 rounded-xl pl-4 py-2">
+                            <div className="bg-gray_fundo_mtfu w-full lg:w-1/3 h-60 lg:h-60 2xl:h-72 rounded-xl pl-4 py-2">
                                 <Typografy align="left" children="Pontos por usuario " color="#878787" fontWeight={400} type="footer" />
                             
-                                <div className="flex flex-col mt-3 max-h-44 lg:max-h-40 2xl:max-h-60 overflow-y-auto scrollbar
+                                <div className="flex flex-col mt-3 max-h-44 lg:max-h-48 2xl:max-h-60 overflow-y-auto scrollbar
                                 scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu gap-4">
 
-                                  <div className="flex gap-2">
+                                  <div className="flex gap-2 cursor-default">
                                     <div className="flex items-center justify-center">
                                       <Avatar title="Nicolas" src="github.com/njeronimo1.png" alt="" />
                                     </div>
@@ -239,7 +239,7 @@ export function DashADM(){
                                     </div>
                                   </div>
 
-                                  <div className="flex gap-2">
+                                  <div className="flex gap-2 cursor-default">
                                     <div className="flex items-center justify-center">
                                       <Avatar title="Nicolas" src="github.com/njeronimo1.png" alt="" />
                                     </div>
@@ -249,7 +249,7 @@ export function DashADM(){
                                     </div>
                                   </div>
 
-                                  <div className="flex gap-2">
+                                  <div className="flex gap-2 cursor-default">
                                     <div className="flex items-center justify-center">
                                       <Avatar title="Nicolas" src="github.com/njeronimo1.png" alt="" />
                                     </div>
@@ -259,7 +259,7 @@ export function DashADM(){
                                     </div>
                                   </div>
 
-                                  <div className="flex gap-2">
+                                  <div className="flex gap-2 cursor-default">
                                     <div className="flex items-center justify-center">
                                       <Avatar title="Nicolas" src="github.com/njeronimo1.png" alt="" />
                                     </div>
@@ -269,7 +269,7 @@ export function DashADM(){
                                     </div>
                                   </div>
 
-                                  <div className="flex gap-2">
+                                  <div className="flex gap-2 cursor-default">
                                     <div className="flex items-center justify-center">
                                       <Avatar title="Nicolas" src="github.com/njeronimo1.png" alt="" />
                                     </div>
@@ -311,7 +311,7 @@ export function DashADM(){
                           </div>
                       </div>
 
-                      <div className="flex flex-col gap-4 lg:gap-6 mt-5 lg:max-h-60 xl:max-h-80 2xl:max-h-128  overflow-y-auto scrollbar
+                      <div className="flex flex-col gap-4 lg:gap-6 mt-5 lg:max-h-80 xl:max-h-128 overflow-y-auto scrollbar
                                 scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu">
                           <CardUser title="teste" sprint="100" status="Em andamento" dateEnd="22/07" dateInital="21/07" taskId="1" type="frontend" key={1} />
                           <CardUser title="teste" sprint="100" status="Em andamento" dateEnd="22/07" dateInital="21/07" taskId="1" type="backend" key={1} />
@@ -332,9 +332,9 @@ export function DashADM(){
                             <span className='text-2xl text-white font-semibold '>Atalhos</span>
                           </div>
                           <div className="flex gap-4 flex-wrap mt-5">
-                            <button className="bg-mtfu py-2 pl-4 pr-4 text-sm rounded-full text-white hover:brightness-125">Criar novo projeto</button>
-                            <button className="bg-mtfu py-2 pl-4 pr-4 text-sm rounded-full text-white hover:brightness-125">Criar nova sprint</button>
-                            <button className="bg-mtfu py-2 pl-4 pr-4 text-sm rounded-full text-white hover:brightness-125">Criar nova task</button>
+                            <button className="bg-mtfu py-2 pl-4 pr-4 text-xs rounded-full text-white hover:brightness-125">Criar novo projeto</button>
+                            <button className="bg-mtfu py-2 pl-4 pr-4 text-xs rounded-full text-white hover:brightness-125">Criar nova sprint</button>
+                            <button className="bg-mtfu py-2 pl-4 pr-4 text-xs rounded-full text-white hover:brightness-125">Criar nova task</button>
                           </div>
                         </div>
                     </div>

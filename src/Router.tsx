@@ -5,6 +5,7 @@ import { NotFound } from "./pages/404";
 import { AppLayout } from "./pages/_layouts/app";
 import { Home } from "./pages/app/home";
 import { SignUp } from "./pages/auth/sign-up";
+import { Project } from "./pages/app/Project/project";
 
 
 export const Router = createBrowserRouter(
@@ -14,7 +15,7 @@ export const Router = createBrowserRouter(
             element: <AppLayout />,
             children: [
                 { path: '/', element: <Home /> },
-                // { path: '/sign-up', element: <SignUp /> }
+                { path: '/project', element: <Project /> }
             ]
         },
         {

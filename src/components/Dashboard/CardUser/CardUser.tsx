@@ -14,7 +14,7 @@ interface CardUserProps{
 export function CardUser({title, dateEnd, dateInital, sprint, status, type}: CardUserProps){
     return (
         <>
-            <div className="flex flex-col hover:brightness-125 cursor-default pl-2 ">
+            <div className="flex flex-col  pl-2 hover:brightness-125 cursor-pointer">
                 {/* //list of tasks */}
 
                 <div className="flex gap-4 w-full items-center">
