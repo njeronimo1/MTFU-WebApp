@@ -58,6 +58,7 @@ module.exports = {
         gray_text: "#878787",
         gray_fundo_mtfu: '#121212',
         gray_fundo_sec_mtfu: '#171717',
+        gray_hover: '#202022',
         separator_menu: '#1A1919',
         separator_app: '#282828',
         mtfu: '#6111CA',

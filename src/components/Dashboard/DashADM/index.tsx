@@ -287,7 +287,7 @@ export function DashADM(){
                 
 
                 {/* dados filtrados por sprint e atalhos */}
-                <div className="w-full lg:w-1/4  flex gap-4 flex-col justify-between">
+                <div className="w-full lg:w-1/4  flex gap-4 flex-col justify-between bg-gray_fundo_sec_mtfu">
                     <div className="flex flex-col mt-10 lg:mt-0  
                 lg:py-4 2xl:py-4 pl-4 pr-4 lg:pl-3 lg:pr-3
                         2xl:pl-6  2xl:pr-6">

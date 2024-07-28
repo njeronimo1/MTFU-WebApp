@@ -27,7 +27,7 @@ export function Menu(){
 
     useEffect(() => {
         if(location.pathname == '/'){
-            setRouterActually('home');
+            setRouterActually('/');
         }
 
         if(location.pathname == '/project'){
@@ -58,8 +58,8 @@ export function Menu(){
                     <Typografy align='left' children='Menu' fontWeight={400} color='#878787' type='footer'/>
                 </div>
                 <div className='w-full py-2 pb-2 pl-4 mt-2 mb-2 flex align-middle justify-start gap-3 cursor-pointer hover:brightness-150 '
-                    style={routerActually == 'home' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
-                    onClick={() => {redirectForRoute('home')}}
+                    style={routerActually == '/' ? {borderLeft: `0.15rem solid ${colors.mtfu}`} : {}}
+                    onClick={() => {redirectForRoute('')}}
                 >
                     <ChartLineUp size={32} color={routerActually == 'home' ? 'white' : '#878787'}/>
                     <div className='w-full mt-1.5'>

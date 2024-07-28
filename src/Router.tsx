@@ -6,6 +6,7 @@ import { AppLayout } from "./pages/_layouts/app";
 import { Home } from "./pages/app/home";
 import { SignUp } from "./pages/auth/sign-up";
 import { Project } from "./pages/app/Project/project";
+import { CreateProject } from "./pages/app/Project/createProject";
 
 
 export const Router = createBrowserRouter(
@@ -15,7 +16,8 @@ export const Router = createBrowserRouter(
             element: <AppLayout />,
             children: [
                 { path: '/', element: <Home /> },
-                { path: '/project', element: <Project /> }
+                { path: '/project', element: <Project /> },
+                { path: '/project/create-project', element: <CreateProject /> }
             ]
         },
         {
