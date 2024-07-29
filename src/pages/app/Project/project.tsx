@@ -43,8 +43,10 @@ export function Project(){
 
             <header className="w-full flex flex-col lg:flex-row p-4 pl-8 pr-8 items-end justify-between">
                 <div className="w-full lg:w-3/4 flex flex-col lg:flex-row  gap-4">
-                    <Input variant="search" label="Pesquise por titulo ou descricao" optional={false} type="text" placeholder="Titulo, categoria"
-                    errorMessage="" imgSearch={search} onChange={() => {}}/>
+                    <div className="w-1/4 flex items-center">
+                        <Input label="" variant="search" optional={false} type="text" placeholder="Titulo, categoria"
+                        errorMessage="" imgSearch={search} onChange={() => {}}/>
+                    </div>
 
                     <div className="flex flex-col gap-1">
                         <Typografy align="left" children="Categoria:" color="#878787" fontWeight={400} type="footer"/>
