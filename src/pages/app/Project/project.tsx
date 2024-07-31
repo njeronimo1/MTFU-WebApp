@@ -43,7 +43,8 @@ export function Project(){
 
             <header className="w-full flex flex-col lg:flex-row p-4 pl-8 pr-8 items-end justify-between">
                 <div className="w-full lg:w-3/4 flex flex-col lg:flex-row  gap-4">
-                    <div className="w-1/4 flex items-center">
+                    <div className="w-1/4 flex  justify-start flex-col gap-1">
+                        <Typografy align="left" children="Pesquisar:" color="#878787" fontWeight={400} type="footer"/>
                         <Input label="" variant="search" optional={false} type="text" placeholder="Titulo, categoria"
                         errorMessage="" imgSearch={search} onChange={() => {}}/>
                     </div>
@@ -51,7 +52,7 @@ export function Project(){
                     <div className="flex flex-col gap-1">
                         <Typografy align="left" children="Categoria:" color="#878787" fontWeight={400} type="footer"/>
                         <Select>
-                            <SelectTrigger className="w-full lg:w-48 bg-white text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
+                            <SelectTrigger className="w-full lg:w-52 bg-white pl-3 text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
                                 <SelectValue placeholder="Selecione uma categoria" />
                             </SelectTrigger>
                             <SelectContent className="w-full lg:z-50 bg-white text-gray-500 border-gray-500">
@@ -66,7 +67,7 @@ export function Project(){
                     <div className="flex flex-col gap-1">
                         <Typografy align="left" children="Status:" color="#878787" fontWeight={400} type="footer"/>
                         <Select>
-                            <SelectTrigger className="w-full lg:w-48 bg-white text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
+                            <SelectTrigger className="w-full lg:w-52 bg-white text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
                                 <SelectValue placeholder="Selecione um status" />
                             </SelectTrigger>
                             <SelectContent className="w-full lg:z-50 bg-white text-gray-500 border-gray-500">
@@ -88,7 +89,8 @@ export function Project(){
             <Separator className="bg-separator_app" />
 
             <div className="mt-2 w-full flex flex-col justify-start items-start p-4 pl-8 pr-8 gap-4 bg-gray_fundo_sec_mtfu
-            max-h-[50vh] lg:max-h-[75vh] overflow-auto">
+            max-h-[50vh] lg:max-h-[75vh] overflow-y-auto scrollbar
+                                scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu">
                 <Typografy align="left" children="Lista de projetos:" color="#878787" fontWeight={400} type="footer"/>
 
                 <div className="flex w-full flex-wrap gap-4">
