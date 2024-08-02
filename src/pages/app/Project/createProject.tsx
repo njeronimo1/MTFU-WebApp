@@ -21,9 +21,9 @@ import { Trash } from "phosphor-react";
 
 
 const createProjectForm = z.object({
-    title: z.string(),
-    responsibleId: z.number(),
-    categoryId: z.number(),
+    title: z.string({message: 'é necessario um titulo'}),
+    responsibleId: z.number({message: 'é necessario alguém responsável'}),
+    categoryId: z.number({message: 'é necessario uma categoria'}),
     users: z.string().optional().array()
 })
 
@@ -31,13 +31,15 @@ type CreateProjectForm = z.infer<typeof createProjectForm>
 
 export function CreateProject(){
 
+    const [title, setTitle] = useState('');
+
     const { register, handleSubmit, formState: {isSubmitting, errors} } = useForm<CreateProjectForm>({
-        defaultValues: {
+        defaultValues: {                
             users: []
         }
     });
 
-    console.log(errors.root);
+    console.log(errors.title, errors.categoryId, errors.responsibleId, errors.users);
 
     function handleSubmitProject(data: CreateProjectForm){
         console.log(data);
@@ -90,10 +92,13 @@ export function CreateProject(){
                             optional={false} 
                             placeholder="Preencha aqui..." 
                             variant="text" 
-                            // onChange={() => {}}
-                            {...register("title")} 
+                            // value={title}
+                            // onChangeFunction={(e) => {(e)}}
+                            // valueText={''}
+                            {...register("title", {required: true})} 
                             errorMessage="" 
                             imgSearch="" 
+                            
                         />
                     </div>
                     
@@ -177,7 +182,7 @@ export function CreateProject(){
                     </div>
                     
                     <div className="w-full flex items-end justify-end" >
-                        <Button  variant="normal" textAlign="center" radius="8" type="submit" >
+                        <Button  variant="normal"  radius="8" type="submit" textAlign="center">
                             Criar
                         </Button>
                     </div>
