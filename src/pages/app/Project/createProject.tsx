@@ -1,11 +1,12 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Button, Input, TextArea, Typografy } from "@mtfu/react";
 import { useState } from "react";
 import { UsersList } from "./projectTypes";
 import { z } from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod"
 
 import {
     Table,
@@ -17,31 +18,38 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+
+  import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+  } from "@/components/ui/form"
+
+
+//imgs
 import { Trash } from "phosphor-react";
 
-
-const createProjectForm = z.object({
-    title: z.string({message: 'é necessario um titulo'}),
-    responsibleId: z.number({message: 'é necessario alguém responsável'}),
-    categoryId: z.number({message: 'é necessario uma categoria'}),
-    users: z.string().optional().array()
+const createProjectFormSchema = z.object({
+    title: z.string().min(4, {message:'Titulo precisa ter ao menos 4 caracteres'}),
+    responsibleId: z.string({message: 'Campo obrigatório'}),
+    categoryId: z.string({message: 'Campo obrigatório'}),
+    description: z.string().min(10, {message:"Descricao precisa ter ao menos 10 caracteres"}),
 })
-
-type CreateProjectForm = z.infer<typeof createProjectForm>
 
 export function CreateProject(){
 
-    const [title, setTitle] = useState('');
+    const form = useForm<z.infer<typeof createProjectFormSchema>>({
+        resolver: zodResolver(createProjectFormSchema),
+        defaultValues: {
+          title: '',
+        },
+      });
 
-    const { register, handleSubmit, formState: {isSubmitting, errors} } = useForm<CreateProjectForm>({
-        defaultValues: {                
-            users: []
-        }
-    });
-
-    console.log(errors.title, errors.categoryId, errors.responsibleId, errors.users);
-
-    function handleSubmitProject(data: CreateProjectForm){
+    function handleSubmitProject(data: z.infer<typeof createProjectFormSchema>){
         console.log(data);
     }
 
@@ -64,7 +72,7 @@ export function CreateProject(){
             setUsersList(filter);
         }
     }
-
+    
     return(
         <>
             <div className="p-2 pl-4">
@@ -83,67 +91,111 @@ export function CreateProject(){
 
             <Separator className="bg-separator_app" />
 
-            <form className="w-full p-8" onSubmit={handleSubmit(handleSubmitProject)}>
+            
+            
+
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmitProject)} className="p-8">
                 <div className="w-full flex gap-4" >
                     <div className="w-1/4">
-                        <Input 
-                            label="Titulo" 
-                            type="text" 
-                            optional={false} 
-                            placeholder="Preencha aqui..." 
-                            variant="text" 
-                            // value={title}
-                            // onChangeFunction={(e) => {(e)}}
-                            // valueText={''}
-                            {...register("title", {required: true})} 
-                            errorMessage="" 
-                            imgSearch="" 
-                            
+                        <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                            <FormItem>
+                            {/* <FormLabel>Username</FormLabel> */}
+                            <FormControl>
+                                <Input 
+                                placeholder="Digite aqui..."
+                                label="Titulo"
+                                optional={false}
+                                type="text"
+                                variant="text"
+                                {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
                         />
+                                {/* <button type="submit">Submit</button> */}
+                            
+                         {/* <input {...register("firstName")} /> */}
                     </div>
                     
                     <div className="w-1/4 flex flex-col gap-[0.5rem]">
                         <Typografy fontWeight={600} type="medium" color="white" children="Responsável" align="left"  />
-                        <Select {...register("responsibleId")} >
-                            <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
-                                <SelectValue placeholder="Selecione um responsável" />
-                            </SelectTrigger>
-                            <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
-                                <SelectGroup>
-                                    <SelectItem value="1" className="hover:bg-mtfu">More than follow up</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <FormField
+                            control={form.control}
+                            name="responsibleId"
+                            render={({ field }) => (
+                                <FormItem>
+                                <Select onValueChange={field.onChange} 
+                                // defaultValue={field.value ? field.value.toString() : undefined}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
+                                            <SelectValue placeholder="Selecione um responsável" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
+                                        <SelectGroup>
+                                            <SelectItem value="1" className="hover:bg-mtfu">More than follow up</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
                     </div>
 
                     <div className="w-1/4 flex flex-col gap-[0.5rem]">
                         <Typografy fontWeight={600} type="medium" color="white" children="Categoria" align="left"  />
-                        <Select {...register("categoryId")} >
-                            <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
-                                <SelectValue placeholder="Selecione uma categoria" />
-                            </SelectTrigger>
-                            <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
-                                <SelectGroup>
-                                    <SelectItem value="1" className="hover:bg-mtfu">More than follow up</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <FormField
+                            control={form.control}
+                            name="categoryId"
+                            render={({ field }) => (
+                                <FormItem>
+                                <Select onValueChange={field.onChange} 
+                                // defaultValue={field.value ? field.value.toString() : undefined}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
+                                            <SelectValue placeholder="Selecione uma categoria" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
+                                        <SelectGroup>
+                                            <SelectItem value="1" className="hover:bg-mtfu">More than follow up</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            />
                     </div>
                 </div>
 
                 <div className="w-full flex gap-4 mt-4">
-                    <div className="w-1/4 flex flex-col gap-[0.5rem]">
-                            <Typografy fontWeight={600} type="medium" color="white" children="Usuarios" align="left"  />
-                            <Select>
-                                <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
-                                    <SelectValue placeholder="Selecione um usuário" />
-                                </SelectTrigger>
-                                <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
-                                    <SelectGroup>
-                                        <SelectItem value="1" className="hover:bg-mtfu">Nicolas Jerônimo</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                    <div className="w-2/4 flex gap-[1rem] items-end">
+                            <div className="flex flex-col gap-[0.5rem] w-1/2">
+                                <Typografy fontWeight={600} type="medium" color="white" children="Usuarios" align="left"  />
+                                <Select>
+                                    <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
+                                        <SelectValue placeholder="Selecione um usuário" />
+                                    </SelectTrigger>
+                                    <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
+                                        <SelectGroup>
+                                            <SelectItem value="1" className="hover:bg-mtfu">Nicolas Jerônimo</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            
+                            <div className="w-[2.5rem]">
+                                <Button children="Adicionar" radius="4" textAlign="center" variant="normal" / >
+                            </div>
                     </div>
                 </div>
 
@@ -178,7 +230,18 @@ export function CreateProject(){
 
                 <div className="w-full py-4 text-white flex gap-6 flex-col">
                     <div className="w-full">
-                        <TextArea label="Descrição" onChange={() => {}} placeholder="Preencha aqui..." value="" errorMessage="" />
+                        <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem>
+                                 <TextArea {...field} label="Descrição" placeholder="Preencha aqui..." errorMessage="" />
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+
+                       
                     </div>
                     
                     <div className="w-full flex items-end justify-end" >
@@ -188,7 +251,8 @@ export function CreateProject(){
                     </div>
                     
                 </div>
-            </form>
+                </form>
+            </Form>
         </>
     )
 }
