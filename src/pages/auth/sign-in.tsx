@@ -76,7 +76,7 @@ export function SignIn() {
                         />
 
                         <Button  variant="normal" type="submit" textAlign="center" radius="8" >
-                            Entrar                    
+                            <span>Entrar</span>                   
                         </Button>
 
                         <div className="flex w-full justify-end text-white gap-2 items-center cursor-pointer hover:opacity-80"
