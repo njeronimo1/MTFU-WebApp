@@ -1,5 +1,7 @@
 import { Button, Input, Typografy } from "@mtfu/react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useSelector, useDispatch } from "react-redux"
+import { authentication } from '../../store/index'
 
 import ArrowRight from "../../assets/icons_radix/arrow-right.svg"
 import { useNavigate } from "react-router-dom"
@@ -11,6 +13,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 
+
 const SignInSchema = z.object({
     login: z.string({message:'Campo obrigatório'}),
     password: z.string({message: 'Campo obrigatório'}),
@@ -20,6 +23,11 @@ export function SignIn() {
 
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
+    const store = useSelector(data => {
+        return data.auth;
+    });
+
     const form = useForm<z.infer<typeof SignInSchema>>({
         resolver: zodResolver(SignInSchema),
         defaultValues: {
@@ -27,7 +35,8 @@ export function SignIn() {
       });
 
     function handleSubmitSignIn(data: z.infer<typeof SignInSchema>){
-        console.log(data);
+        dispatch(authentication({auth: data}));
+        // console.log(data);
     }
 
     return(
