@@ -15,7 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 
 
 const SignInSchema = z.object({
-    login: z.string({message:'Campo obrigatório'}),
+    username: z.string({message:'Campo obrigatório'}),
     password: z.string({message: 'Campo obrigatório'}),
 })
 
@@ -43,11 +43,11 @@ export function SignIn() {
         <>
             <Form {...form}>
                 <form className="flex flex-col gap-4 p-8 w-full lg:w-2/4" onSubmit={form.handleSubmit(handleSubmitSignIn)}>
-                    <Typografy align="left" color="#FFF" fontWeight={700} type="title" children="Digite seu login e senha" />
+                    <Typografy align="left" color="#FFF" fontWeight={700} type="title" children="Digite seu username e senha" />
                     <div className="bg-gray_fundo_mtfu p-8 w-full rounded-xl gap-4 flex flex-col">
                         <FormField
                             control={form.control}
-                            name="login"
+                            name="username"
                             render={({ field }) => (
                                 <FormItem>
                                 <FormControl>
