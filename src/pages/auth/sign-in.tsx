@@ -1,7 +1,7 @@
 import { Button, Input, Typografy } from "@mtfu/react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useSelector, useDispatch } from "react-redux"
-import { authentication } from '../../store/index'
+import { useDispatch } from "react-redux"
+import { authentication, useAppDispatch, useAppSelector } from '../../store/index'
 
 import ArrowRight from "../../assets/icons_radix/arrow-right.svg"
 import { useNavigate } from "react-router-dom"
@@ -12,6 +12,7 @@ import eyeClosed from "../../assets/icons_radix/eye-closed.svg"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
+import { authenticate } from "@/store/slices/auth"
 
 
 const SignInSchema = z.object({
@@ -23,8 +24,8 @@ export function SignIn() {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-    const store = useSelector(data => {
+    const dispatch = useAppDispatch();
+    const store = useAppSelector(data => {
         return data.auth;
     });
 
@@ -35,7 +36,7 @@ export function SignIn() {
       });
 
     function handleSubmitSignIn(data: z.infer<typeof SignInSchema>){
-        dispatch(authentication({auth: data}));
+        dispatch(authenticate(data));
         // console.log(data);
     }
 

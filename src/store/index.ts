@@ -1,18 +1,9 @@
 import { api } from "@/lib/axios";
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { authSlice } from "./slices/auth";
 
-const authSlice = createSlice({
-    name: "auth",
-    initialState: [{}],
-    reducers: {
-        authentication: (state, action) => {
-            console.log(action.payload.auth);
-            api.post('/Auth/login', action.payload.auth).then((res) => console.log(res));
 
-            state.push(action.payload.auth);
-        }
-    },
-})
 
 export const store = configureStore({
     reducer: {
@@ -20,4 +11,9 @@ export const store = configureStore({
     }
 });
 
-export const {authentication} = authSlice.actions;
+// export const {authentication} = authSlice.actions;
+
+type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useAppDispatch: () => AppDispatch = useDispatch;
