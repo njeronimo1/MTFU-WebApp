@@ -1,7 +1,7 @@
 import { api } from "@/lib/axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-interface User {
+export interface User {
     id: string,
     token: string,
     refreshToken: string,
@@ -10,18 +10,35 @@ interface User {
 
 interface UserState {
     user: User | null,
+    isLoading: boolean
 }
 
 const initialState:UserState = {
     user: null,
+    isLoading: false,
 };
 
-//guardar dados no cookies e replicar function pra somente fazer get dos dados do user
 export const authenticate = createAsyncThunk(
     'auth/authenticate',
     async (action) => {
-        // console.log(action);
-        api.post('/Auth/login', action).then((res) => console.log(res));
+        const userAuth = await api.post('/Auth/login', action);
+        localStorage.setItem('user', JSON.stringify(userAuth.data));
+
+        return userAuth.data;
+    }
+)
+
+export const getUser = createAsyncThunk(
+    'auth/getUser',
+    async () => {
+        const getUserLocal = localStorage.getItem('user');
+        if(getUserLocal){
+            let user = JSON.parse(getUserLocal);
+
+            return user;
+        }else{
+            return null;
+        }
     }
 )
 
@@ -29,11 +46,22 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        authentication: (state, action) => {
-            console.log(action.payload.auth);
-            
+    },
+    extraReducers(builder) {
+        builder.addCase(getUser.fulfilled, (state, action) => {
+            state.user = action.payload;
+        });
 
-            // state.push(action.payload.auth);
-        }
+        builder.addCase(authenticate.pending, (state, action) => {
+            state.isLoading = true;
+        })
+
+        builder.addCase(authenticate.fulfilled, (state, action) => {
+            state.isLoading = false;
+        })
+
+        builder.addCase(authenticate.rejected, (state, action) => {
+            state.isLoading = false;
+        })
     },
 })

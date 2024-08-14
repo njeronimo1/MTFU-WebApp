@@ -1,7 +1,6 @@
 import { Menu } from "@/components/Menu/Menu";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home } from "../app/home";
 import { Outlet } from 'react-router-dom'
 
 import {
@@ -10,22 +9,35 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
+import { useAppDispatch, useAppSelector } from "@/store";
+import { getUser } from "@/store/slices/auth";
+import { UserNotAuthenticated } from "../404";
+
 
 export function AppLayout(){
 
-    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-    // useEffect(() => {
-    //     navigate("/sign-in");
-    // }, [location]);
+    const { user } = useAppSelector(store => {
+        const user = store.auth.user;
+        return { user };
+    });
+
+    function getUserStore(){
+        dispatch(getUser());
+    }
+
+    useEffect(() => {
+        getUserStore();
+    }, [location]);
+
+    if(user == null){
+        return <UserNotAuthenticated />;
+    }
 
     return(
         <>

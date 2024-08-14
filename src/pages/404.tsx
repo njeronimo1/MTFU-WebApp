@@ -10,3 +10,14 @@ export function NotFound(){
         </div>
     )
 }
+
+export function UserNotAuthenticated(){
+    return(
+        <div className="flex h-screen flex-col items-center justify-center gap-2">
+            <h1 className="text-4xl font-bold">Voce precisa realizar o login para acessar essa pagina</h1>
+            <p className="text-accent-foreground">
+                Voltar para o{' '} <Link to="/sign-in" className="text-sky-600 dark:text-sky-400">login</Link>
+            </p>
+        </div>
+    )
+}

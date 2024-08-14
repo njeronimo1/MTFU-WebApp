@@ -1,7 +1,7 @@
 import { Button, Input, Typografy } from "@mtfu/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDispatch } from "react-redux"
-import { authentication, useAppDispatch, useAppSelector } from '../../store/index'
+import { useAppDispatch, useAppSelector } from '../../store/index'
 
 import ArrowRight from "../../assets/icons_radix/arrow-right.svg"
 import { useNavigate } from "react-router-dom"
@@ -13,6 +13,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { authenticate } from "@/store/slices/auth"
+import { CircleNotch } from "phosphor-react"
 
 
 const SignInSchema = z.object({
@@ -25,8 +26,12 @@ export function SignIn() {
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
-    const store = useAppSelector(data => {
-        return data.auth;
+
+    const {dataAuth, isLoading} = useAppSelector(data => {
+        const dataAuth = data.auth.user;
+        const isLoading = data.auth.isLoading;
+
+        return {dataAuth, isLoading};
     });
 
     const form = useForm<z.infer<typeof SignInSchema>>({
@@ -36,7 +41,11 @@ export function SignIn() {
       });
 
     function handleSubmitSignIn(data: z.infer<typeof SignInSchema>){
-        dispatch(authenticate(data));
+        dispatch(authenticate(data)).then((res) => {
+            if(res.payload){
+                navigate('/');
+            }
+        });
         // console.log(data);
     }
 
@@ -85,8 +94,15 @@ export function SignIn() {
                         )}
                         />
 
-                        <Button  variant="normal" type="submit" textAlign="center" radius="8" >
-                            <span>Entrar</span>                   
+                        <Button  variant="normal" type="submit" textAlign="center" radius="8" disabled={isLoading}>
+                            <span>
+
+                                {isLoading && (
+                                    <CircleNotch size={20} className="animate rotate-180"/>
+                                )}
+
+                                Entrar
+                            </span>                   
                         </Button>
 
                         <div className="flex w-full justify-end text-white gap-2 items-center cursor-pointer hover:opacity-80"
