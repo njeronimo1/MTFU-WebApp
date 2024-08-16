@@ -35,9 +35,9 @@ export function AppLayout(){
         getUserStore();
     }, [location]);
 
-    if(user == null){
-        return <UserNotAuthenticated />;
-    }
+    // if(user == null){
+    //     return <UserNotAuthenticated />;
+    // }
 
     return(
         <>

@@ -53,7 +53,7 @@ export function SignIn() {
         <>
             <Form {...form}>
                 <form className="flex flex-col gap-4 p-8 w-full lg:w-2/4" onSubmit={form.handleSubmit(handleSubmitSignIn)}>
-                    <Typografy align="left" color="#FFF" fontWeight={700} type="title" children="Digite seu username e senha" />
+                    <Typografy align="left" color="#FFF" fontWeight={700} type="title" children="Digite seu login e senha" />
                     <div className="bg-gray_fundo_mtfu p-8 w-full rounded-xl gap-4 flex flex-col">
                         <FormField
                             control={form.control}
@@ -66,6 +66,7 @@ export function SignIn() {
                                     label="Login"
                                     optional={false}
                                     type="text"
+                                    errorMessage=""
                                     variant="text"
                                     {...field} />
                                 </FormControl>
@@ -84,6 +85,7 @@ export function SignIn() {
                                     placeholder="Digite aqui..."
                                     label="Senha"
                                     optional={false}
+                                    errorMessage=""
                                     type="text"
                                     variant="password"
                                     imagesPassword={{eyeOpen: eyeOpen, eyeClosed: eyeClosed}}
@@ -94,13 +96,12 @@ export function SignIn() {
                         )}
                         />
 
-                        <Button  variant="normal" type="submit" textAlign="center" radius="8" disabled={isLoading}>
-                            <span>
-
+                        <Button className="flex gap-1 text-center "  variant="normal" type="submit" textAlign="center" radius="8" disabled={isLoading}>
+                            
+                            <span className="relative flex align-center">
                                 {isLoading && (
-                                    <CircleNotch size={20} className="animate rotate-180"/>
+                                    <CircleNotch size={20} className="absolute right-14 top-0.5 animate-spin h-5 w-5 "/>
                                 )}
-
                                 Entrar
                             </span>                   
                         </Button>
