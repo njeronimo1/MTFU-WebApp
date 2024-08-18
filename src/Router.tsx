@@ -7,6 +7,7 @@ import { Home } from "./pages/app/home";
 import { SignUp } from "./pages/auth/sign-up";
 import { Project } from "./pages/app/Project/project";
 import { CreateProject } from "./pages/app/Project/createProject";
+import { ProjectDetail } from "./pages/app/Project/projectDetail";
 
 
 export const Router = createBrowserRouter(
@@ -17,7 +18,8 @@ export const Router = createBrowserRouter(
             children: [
                 { path: '/', element: <Home /> },
                 { path: '/project', element: <Project /> },
-                { path: '/project/create-project', element: <CreateProject /> }
+                { path: '/project/create-project', element: <CreateProject /> },
+                { path: '/project/:id', element: <ProjectDetail /> }
             ]
         },
         {
