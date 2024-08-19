@@ -80,8 +80,8 @@ export function Project(){
                     </div>
                 </div>
                 <div className="w-full lg:w-1/4 flex lg:justify-end mt-4 lg:mt-0" onClick={() => {navigate('create-project')}}>
-                    <Button  variant="normal" textAlign="center" radius="8" >
-                        Criar um novo projeto                    
+                    <Button  variant="normal" textAlign="center" radius="8">
+                        <span>Criar um novo projeto</span>                  
                     </Button>
                 </div>
             </header>
