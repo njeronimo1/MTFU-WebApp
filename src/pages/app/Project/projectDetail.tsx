@@ -1,6 +1,8 @@
+import { PlanningProject } from "@/components/Project/ProjectTabs/PlanningProject";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, Status, Typografy } from "@mtfu/react";
 import { UserPlus } from "phosphor-react";
 import { useEffect, useState } from "react";
@@ -189,6 +191,32 @@ export function ProjectDetail(){
             </div>
 
             <Separator className='bg-separator_app' />
+
+            <Tabs defaultValue="planning" className="w-full p-4">
+                <TabsList className="grid w-full grid-cols-5 bg-[#272729]">
+                    <TabsTrigger value="planning">Planejamento</TabsTrigger>
+                    <TabsTrigger value="analysis">Analise de requisitos</TabsTrigger>
+                    <TabsTrigger value="design">Design</TabsTrigger>
+                    <TabsTrigger value="develop">Desenvolvimento e testes</TabsTrigger>
+                    <TabsTrigger value="deploy">Implantacao</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="planning">
+                    <PlanningProject />
+                </TabsContent>
+                <TabsContent value="analysis">
+                   analise
+                </TabsContent>
+                <TabsContent value="design">
+                   design
+                </TabsContent>
+                <TabsContent value="develop">
+                   desenvolvimento
+                </TabsContent>
+                <TabsContent value="deploy">
+                   implantacao
+                </TabsContent>
+            </Tabs>
         </>
     )
 }
