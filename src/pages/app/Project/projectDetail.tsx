@@ -30,7 +30,7 @@ export function ProjectDetail(){
     },[]);
 
     return (
-        <>
+        <div className="h-screen overflow-y-scroll">
             <div className="p-2 pl-4">
                 <Breadcrumb>
                     <BreadcrumbList>
@@ -192,14 +192,18 @@ export function ProjectDetail(){
 
             <Separator className='bg-separator_app' />
 
-            <Tabs defaultValue="planning" className="w-full p-4">
-                <TabsList className="grid w-full grid-cols-5 bg-[#272729]">
-                    <TabsTrigger value="planning">Planejamento</TabsTrigger>
-                    <TabsTrigger value="analysis">Analise de requisitos</TabsTrigger>
-                    <TabsTrigger value="design">Design</TabsTrigger>
-                    <TabsTrigger value="develop">Desenvolvimento e testes</TabsTrigger>
-                    <TabsTrigger value="deploy">Implantacao</TabsTrigger>
-                </TabsList>
+            <Tabs defaultValue="planning" className="w-full p-4 bg-gray_fundo_sec_mtfu">
+
+                <div className=" py-2 bg-gray_fundo_sec_mtfu sticky top-0 z-50">
+                    <TabsList className="grid w-full grid-cols-5 bg-[#272729] ">
+                        <TabsTrigger value="planning">Planejamento</TabsTrigger>
+                        <TabsTrigger value="analysis">Analise de requisitos</TabsTrigger>
+                        <TabsTrigger value="design">Design</TabsTrigger>
+                        <TabsTrigger value="develop">Desenvolvimento e testes</TabsTrigger>
+                        <TabsTrigger value="deploy">Implantacao</TabsTrigger>
+                    </TabsList>
+                </div>
+                
 
                 <TabsContent value="planning">
                     <PlanningProject />
@@ -216,7 +220,9 @@ export function ProjectDetail(){
                 <TabsContent value="deploy">
                    implantacao
                 </TabsContent>
+
+                
             </Tabs>
-        </>
+        </div>
     )
 }
