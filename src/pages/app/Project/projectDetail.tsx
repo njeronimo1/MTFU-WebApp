@@ -206,7 +206,7 @@ export function ProjectDetail(){
                 
 
                 <TabsContent value="planning">
-                    <PlanningProject />
+                    <PlanningProject projectId={id ? id : ''} />
                 </TabsContent>
                 <TabsContent value="analysis">
                    analise
