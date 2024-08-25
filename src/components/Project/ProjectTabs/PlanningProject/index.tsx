@@ -5,6 +5,7 @@ import { Block } from "@blocknote/core";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSprint } from "@/components/Sprint/CardSprint";
+import { toast } from 'react-toastify';
 import {
     Dialog,
     DialogClose,
@@ -15,13 +16,16 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+import { api } from "@/lib/axios";
+import { tabs } from "@/pages/app/Project/projectDetail";
   
 
 interface PlanningProject {
     projectId: string;
+    setTabActive: (e: tabs) => void;
 }
 
-export function PlanningProject({projectId} : PlanningProject){
+export function PlanningProject({projectId, setTabActive} : PlanningProject){
 
     const [contentEditor, setContentEditor] = useState<string>('');
     const [showEditor, setShowEditor] = useState(false);
@@ -44,6 +48,37 @@ export function PlanningProject({projectId} : PlanningProject){
             setShowEditor(true);
         }
     }, []);
+
+
+    async function avanceFase(){
+        let avance = await toast.promise(
+            api.post('/'),
+            {
+              pending: 'Processando...',
+              success: 'Fase avancada com sucesso!, agora o projeto esta em Analise de requisitos👌',
+              error: 'Erro ao avancar de fase... 🤯'
+            }
+        );
+
+        if(avance.status == 200) {
+            setTabActive("analysis");
+        }
+
+        setOpenModalAvanceFase(false);
+    }
+
+    async function saveAlters(){
+        await toast.promise(
+            api.post('/'),
+            {
+              pending: 'Salvando alteracoes...',
+              success: 'Alteracoes salvas com sucesso!',
+              error: 'Erro ao salvar alteracoes 🤯'
+            }
+        );
+
+        setOpenModalAvanceFase(false);
+    }
 
 
     return(
@@ -141,7 +176,7 @@ export function PlanningProject({projectId} : PlanningProject){
             </div>
 
             <div className="sticky bottom-2 w-full flex justify-end py-2 gap-2">
-                <Button variant="normal" textAlign="center" radius="4"><span>Salvar alteracoes</span></Button>
+                <Button variant="normal" textAlign="center" radius="4" type="button" onClick={saveAlters}><span>Salvar alteracoes</span></Button>
 
                 <Dialog open={openModalAvanceFase} onOpenChange={setOpenModalAvanceFase}>
                     <DialogTrigger asChild>
@@ -158,7 +193,7 @@ export function PlanningProject({projectId} : PlanningProject){
                         <DialogFooter>
                             <Button variant="normal" textAlign="center" radius="4" onClick={() => {setOpenModalAvanceFase(false)}}><span>Cancelar</span></Button>
                             <Button variant="normal" textAlign="center" radius="4" 
-                            onClick={() => {setOpenModalAvanceFase(false)}}><span>Sim</span></Button>
+                            onClick={avanceFase}><span>Sim</span></Button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>

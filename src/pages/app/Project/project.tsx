@@ -6,6 +6,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
+  import { Badge, badgeVariants } from "@/components/ui/badge"
   import {
     Select,
     SelectContent,
@@ -22,14 +23,15 @@ import { Button, Input, Typografy } from "@mtfu/react"
 import search from '../../../assets/search.png'
 import { CardProject } from "@/components/Project/CardProject"
 import { PaginationComponent } from "@/components/Pagination"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { ArrowSquareOut } from "phosphor-react"
   
 
 export function Project(){
     const navigate = useNavigate();
     return(
         <>
-            <div className="p-2 pl-4">
+            <div className=" pl-4 pr-4 py-2.5 relative flex justify-between">
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -37,11 +39,19 @@ export function Project(){
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
+                <Link className={badgeVariants({ variant: "secondary" })} target="_blank"
+                 to={"https://more-than-follow-up.gitbook.io/more-than-follow-up/como-utilizar/criando-e-acessando-um-projeto"}>
+                    <span
+                    className="flex gap-1">
+                    Docs
+                    <ArrowSquareOut size={15} />
+                    </span>
+                </Link>
                 
             </div>
             <Separator className="bg-separator_app" />
 
-            <header className="w-full flex flex-col lg:flex-row p-4 pl-8 pr-8 items-end justify-between">
+            <header className="w-full flex flex-col lg:flex-row p-4 pl-4 pr-4 items-end justify-between">
                 <div className="w-full lg:w-3/4 flex flex-col lg:flex-row  gap-4">
                     <div className="w-1/4 flex  justify-start flex-col gap-1">
                         <Typografy align="left" children="Pesquisar:" color="#878787" fontWeight={400} type="footer"/>
@@ -81,14 +91,14 @@ export function Project(){
                 </div>
                 <div className="w-full lg:w-1/4 flex lg:justify-end mt-4 lg:mt-0" onClick={() => {navigate('create-project')}}>
                     <Button  variant="normal" textAlign="center" radius="8">
-                        <span>Criar um novo projeto</span>                  
+                        <span>Criar um novo projeto    </span>              
                     </Button>
                 </div>
             </header>
 
             <Separator className="bg-separator_app" />
 
-            <div className="mt-2 w-full flex flex-col justify-start items-start p-4 pl-8 pr-8 gap-4 bg-gray_fundo_sec_mtfu
+            <div className="mt-2 w-full flex flex-col justify-start items-start p-4 pl-4 pr-4 gap-4 bg-gray_fundo_sec_mtfu
             max-h-[50vh] lg:max-h-[75vh] overflow-y-auto scrollbar
                                 scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu">
                 <Typografy align="left" children="Lista de projetos:" color="#878787" fontWeight={400} type="footer"/>

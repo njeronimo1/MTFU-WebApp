@@ -1,3 +1,4 @@
+import { AnalysisProject } from "@/components/Project/ProjectTabs/Analisys";
 import { PlanningProject } from "@/components/Project/ProjectTabs/PlanningProject";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -16,11 +17,15 @@ const dataPie = [
   
   const COLORS = ['#FFF', '#222222'];
 
+  export type tabs = 'planning' | 'analysis' | 'design' | 'develop' | 'deploy'
+  
+
 export function ProjectDetail(){
 
     const { id } = useParams();
 
     const [conclusionProject, setConclusionProject] = useState('');
+    const [tabActive, setTabActive] = useState<tabs>('planning');
 
     useEffect(() => {
         let total = dataPie[0].value + dataPie[1].value;
@@ -192,24 +197,24 @@ export function ProjectDetail(){
 
             <Separator className='bg-separator_app' />
 
-            <Tabs defaultValue="planning" className="w-full p-4 bg-gray_fundo_sec_mtfu">
+            <Tabs defaultValue={tabActive} className="w-full p-4 bg-gray_fundo_sec_mtfu" value={tabActive}>
 
                 <div className=" py-2 bg-gray_fundo_sec_mtfu sticky top-0 z-50">
                     <TabsList className="grid w-full grid-cols-5 bg-[#272729] ">
-                        <TabsTrigger value="planning">Planejamento</TabsTrigger>
-                        <TabsTrigger value="analysis">Analise de requisitos</TabsTrigger>
-                        <TabsTrigger value="design">Design</TabsTrigger>
-                        <TabsTrigger value="develop">Desenvolvimento e testes</TabsTrigger>
-                        <TabsTrigger value="deploy">Implantacao</TabsTrigger>
+                        <TabsTrigger value="planning" onClick={() => {setTabActive('planning')}}>Planejamento</TabsTrigger>
+                        <TabsTrigger value="analysis" onClick={() => {setTabActive('analysis')}}>Analise de requisitos</TabsTrigger>
+                        <TabsTrigger value="design" onClick={() => {setTabActive('design')}}>Design</TabsTrigger>
+                        <TabsTrigger value="develop" onClick={() => {setTabActive('develop')}}>Desenvolvimento e testes</TabsTrigger>
+                        <TabsTrigger value="deploy" onClick={() => {setTabActive('deploy')}}>Implantacao</TabsTrigger>
                     </TabsList>
                 </div>
                 
 
                 <TabsContent value="planning">
-                    <PlanningProject projectId={id ? id : ''} />
+                    <PlanningProject projectId={id ? id : ''} setTabActive={setTabActive} />
                 </TabsContent>
                 <TabsContent value="analysis">
-                   analise
+                   <AnalysisProject projectId={id ? id : ''} setTabActive={setTabActive} />
                 </TabsContent>
                 <TabsContent value="design">
                    design

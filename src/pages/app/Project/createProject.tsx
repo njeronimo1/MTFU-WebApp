@@ -31,7 +31,9 @@ import {
 
 
 //imgs
-import { Trash } from "phosphor-react";
+import { ArrowSquareOut, Trash } from "phosphor-react";
+import { Link } from "react-router-dom";
+import { badgeVariants } from "@/components/ui/badge";
 
 const createProjectFormSchema = z.object({
     title: z.string().min(4, {message:'Titulo precisa ter ao menos 4 caracteres'}),
@@ -75,7 +77,7 @@ export function CreateProject(){
     
     return(
         <>
-            <div className="p-2 pl-4">
+            <div className="pl-4 pr-4 py-2.5 relative flex justify-between">
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -86,7 +88,14 @@ export function CreateProject(){
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                
+                <Link className={badgeVariants({ variant: "secondary" })} target="_blank"
+                 to={"https://more-than-follow-up.gitbook.io/more-than-follow-up/como-utilizar/criando-e-acessando-um-projeto"}>
+                    <span
+                    className="flex gap-1">
+                    Docs
+                    <ArrowSquareOut size={15} />
+                    </span>
+                </Link>
             </div>
 
             <Separator className="bg-separator_app" />
@@ -95,7 +104,7 @@ export function CreateProject(){
             
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmitProject)} className="p-8">
+                <form onSubmit={form.handleSubmit(handleSubmitProject)} className="p-4">
                 <div className="w-full flex gap-4" >
                     <div className="w-1/4">
                         <FormField
