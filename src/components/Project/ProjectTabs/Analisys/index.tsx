@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { CardSprint } from "@/components/Sprint/CardSprint";
 
 import { toast } from 'react-toastify';
-import { PlusCircle, Trash } from 'phosphor-react'
+import { Clock, PlusCircle, Trash } from 'phosphor-react'
 import {
     Dialog,
     DialogClose,
@@ -71,11 +71,26 @@ export function AnalysisProject({projectId, setTabActive} : PlanningProject){
 
 
     return(
-        <div className="flex flex-col gap-2 mt-0 ">
+        <div className="flex flex-col gap-2 mt-0 relative">
             <div className="sticky top-12 flex gap-2 py-4 z-[50] flex-col bg-gray_fundo_sec_mtfu">
                 <Typografy align="left" children="Analise de requisitos" color="white" fontWeight={500} type="title" />
                 <Typografy align="left" children="Aqui voce pode criar todos os requisitos que seu projeto necessita! (ex: requisitos funcionais e nao-funcionais)"
                 color="#878787" fontWeight={400} type="footer" />
+
+                <div className="bg-gray_fundo_mtfu rounded-sm py-1 pl-2 pr-2 absolute right-1 h-10 top-0 w-[40%] xl:w-[25%] 2xl:w-[22%] flex items-center justify-around">
+                    <div className="w-[45%] border-r flex pl-2 pr-2 gap-1">
+                        <Typografy align="left" children="Data inicio: " color="white" fontWeight={400} type="footer" />
+                        <Typografy align="left" children="12/02/2024" color="#878787" fontWeight={400} type="footer" />
+                    </div>
+                    <div className="w-[45%] flex pl-2 pr-2 gap-1" >
+                        <Typografy align="left" children="Ultima att: " color="white" fontWeight={400} type="footer" />
+                        <Typografy align="left" children="27/02/2024" color="#878787" fontWeight={400} type="footer" />
+                    </div>
+                    <div className="rounded-md p-2 flex items-center justify-center h-10 hover:bg-mtfu transition-colors cursor-pointer">
+                        <Clock size={20}  color="white" />
+                    </div>
+                    
+                </div>
 
                 <Separator className="bg-separator_app" />
             </div>
@@ -86,10 +101,10 @@ export function AnalysisProject({projectId, setTabActive} : PlanningProject){
 
                 <Dialog open={openModalReqDirect} onOpenChange={setOpenModalReqDirect} >
                     <DialogTrigger asChild>
-                    <div className="bg-gray_fundo_mtfu p-4 w-52 rounded-md min-h-28 flex flex-col justify-between
+                    <div className="bg-gray_fundo_mtfu p-4 w-64 rounded-md min-h-32 flex flex-col justify-between
                     transition-shadow hover:opacity-95 hover:shadow hover:shadow-mtfu cursor-pointer"
                     onClick={() => {setOpenModalReqDirect(true)}}>
-                        <Typografy align="center" children="Diretos ou funcionais" color="#878787" fontWeight={500} type="footer" />
+                        <Typografy align="center" children="Diretos ou funcionais" color="#878787" fontWeight={500} type="medium" />
 
                         <div className="w-full flex items-center justify-center">
                             
@@ -196,10 +211,10 @@ export function AnalysisProject({projectId, setTabActive} : PlanningProject){
                 </Dialog>
                 <Dialog open={openModalReqDirect} onOpenChange={setOpenModalReqDirect} >
                     <DialogTrigger asChild>
-                    <div className="bg-gray_fundo_mtfu p-4 w-52 rounded-md min-h-28 flex flex-col justify-between
+                    <div className="bg-gray_fundo_mtfu p-4 w-64 rounded-md min-h-32 flex flex-col justify-between
                     transition-shadow hover:opacity-95 hover:shadow hover:shadow-mtfu cursor-pointer"
                     onClick={() => {setOpenModalReqDirect(true)}}>
-                        <Typografy align="center" children="Inderetos ou nao-funcionais" color="#878787" fontWeight={500} type="footer" />
+                        <Typografy align="center" children="Inderetos ou nao-funcionais" color="#878787" fontWeight={500} type="medium" />
 
                         <div className="w-full flex items-center justify-center">
                             

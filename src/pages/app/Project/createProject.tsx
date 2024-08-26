@@ -255,7 +255,7 @@ export function CreateProject(){
                     
                     <div className="w-full flex items-end justify-end" >
                         <Button  variant="normal"  radius="8" type="submit" textAlign="center">
-                            Criar
+                            <span>Criar</span>
                         </Button>
                     </div>
                     

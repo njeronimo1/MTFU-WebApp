@@ -1,4 +1,5 @@
 import { AnalysisProject } from "@/components/Project/ProjectTabs/Analisys";
+import { DesignProject } from "@/components/Project/ProjectTabs/DesignProject";
 import { PlanningProject } from "@/components/Project/ProjectTabs/PlanningProject";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -217,7 +218,7 @@ export function ProjectDetail(){
                    <AnalysisProject projectId={id ? id : ''} setTabActive={setTabActive} />
                 </TabsContent>
                 <TabsContent value="design">
-                   design
+                   <DesignProject projectId={id ? id : ''} setTabActive={setTabActive}/ >
                 </TabsContent>
                 <TabsContent value="develop">
                    desenvolvimento

@@ -5,7 +5,9 @@ import { Block } from "@blocknote/core";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSprint } from "@/components/Sprint/CardSprint";
+
 import { toast } from 'react-toastify';
+import { Clock, PlusCircle, Trash, Upload } from 'phosphor-react'
 import {
     Dialog,
     DialogClose,
@@ -18,38 +20,24 @@ import {
   } from "@/components/ui/dialog"
 import { api } from "@/lib/axios";
 import { tabs } from "@/pages/app/Project/projectDetail";
-import { Clock } from "phosphor-react";
+import { colors } from "@mtfu/tokens";
+import { Badge } from "@/components/ui/badge";
   
 
-interface PlanningProject {
+interface DesignProject {
     projectId: string;
     setTabActive: (e: tabs) => void;
 }
 
-export function PlanningProject({projectId, setTabActive} : PlanningProject){
+export function DesignProject({projectId, setTabActive} : DesignProject){
 
-    const [contentEditor, setContentEditor] = useState<string>('');
-    const [showEditor, setShowEditor] = useState(false);
     const [openModalAvanceFase, setOpenModalAvanceFase] = useState(false);
+    const [openModalReqDirect, setOpenModalReqDirect] = useState(false);
+    const [openModalReqNotDirect, setOpenModalReqNotDirect] = useState(false);
 
-    useEffect(() => {
-        if(contentEditor.length > 0){
-            localStorage.setItem('editor', JSON.stringify(contentEditor));
-        }
-         
-    }, [contentEditor]);
 
-    useEffect(() => {
-        let editor = localStorage.getItem('editor');
-        if(editor){
-            let data = JSON.parse(editor);
-            setContentEditor(data);
-            setShowEditor(true);
-        }else{
-            setShowEditor(true);
-        }
-    }, []);
-
+    //preview image
+    const [image, setImage] = useState<any>();
 
     async function avanceFase(){
         let avance = await toast.promise(
@@ -62,7 +50,7 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
         );
 
         if(avance.status == 200) {
-            setTabActive("analysis");
+            setTabActive("design");
         }
 
         setOpenModalAvanceFase(false);
@@ -81,11 +69,15 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
         setOpenModalAvanceFase(false);
     }
 
+    function saveReqs(req: 'funcional' | 'nfuncional'){
+        setOpenModalReqDirect(false);
+    }
+
 
     return(
-        <div className="flex flex-col gap-2 mt-0 relative">
+        <div className="flex flex-col gap-2 mt-0 relative ">
             <div className="sticky top-12 flex gap-2 py-4 z-[50] flex-col bg-gray_fundo_sec_mtfu">
-                <Typografy align="left" children="Planejamento" color="white" fontWeight={500} type="title" />
+                <Typografy align="left" children="Design" color="white" fontWeight={500} type="title" />
                 <Typografy align="left" children="Todo projeto necessita de um planejamento, utilize essa aba para colocar em ordem tudo que será feito daqui em diante."
                 color="#878787" fontWeight={400} type="footer" />
 
@@ -107,11 +99,9 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
                 <Separator className="bg-separator_app" />
             </div>
             
-
-             {/* <Typografy align="left" children="Link para documentacao em outro site?" color="white" fontWeight={400} type="medium" /> */}
-             <div className="mt-2">
+            <div className="mt-2">
                 <Input
-                    label="Link para documentacao em outro site?"
+                    label="Link para prototipagem geral do projeto"
                     variant="text"
                     optional={false}
                     type="text"
@@ -121,28 +111,108 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
                     className="w-1/2 mt-2" 
                 />
              </div>
-             
 
-            <div className="mt-2">
-                {/* <TextArea 
-                    label="Planejamento"
-                    placeholder="Preencha aqui..."
-                    errorMessage=""
-                    onChange={() => {}}
-                    className="w-full text-white mt-2"
-                    value=""
-                /> */}
+             {/* <Typografy align="left" children="Link para documentacao em outro site?" color="white" fontWeight={400} type="medium" /> */}
+             <div className="my-6 flex gap-4">
 
-                <Typografy align="left" children="Monte seu planejamento:" color="white" fontWeight={500} type="description" />
+                <Dialog open={openModalReqDirect} onOpenChange={setOpenModalReqDirect} >
+                    <DialogTrigger asChild>
+                        <div className="bg-gray_fundo_mtfu w-64 rounded-md min-h-32 flex flex-col justify-center
+                        transition-shadow hover:opacity-95 hover:shadow hover:shadow-mtfu cursor-pointer relative"
+                        onClick={() => {setOpenModalReqDirect(true)}}>
+                            <div className="w-full flex items-center justify-center">
+                                
+                                <PlusCircle size={40} color={colors.mtfu} />
+                                
+                            </div>
 
-                {showEditor && (
-                    <div className="mt-2">
-                        <Editor initialContent={contentEditor} onChangeFn={setContentEditor} />
-                    </div>
-                    
-                )}  
-                
-            </div>
+                            <div className="absolute bottom-[-1.5rem] w-full">
+                                <Typografy align="center" children="Nova seção" color="#878787" fontWeight={400} type="medium" />
+                            </div>
+                            
+                        </div>
+                    </DialogTrigger>
+                    <DialogContent className="bg-gray_fundo_mtfu text-white border-0 max-w-[800px]">
+                        
+                        <DialogHeader className="text-white">
+                            <DialogTitle className="text-white text-lg font-normal" >Nova seção</DialogTitle>
+                            <DialogDescription className="font-light text-xs">
+                            Obs: fornecemos um exemplo de estrutura simples para criação dos requisitos com o objetivo de ter uma documentação básica e de fácil acesso.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="mt-2 flex flex-col gap-4">
+
+                            {image ? 
+                            <> 
+                                <Typografy align="left" children="Veja como sua imagem ficara listada:" color="#878787" fontWeight={400} type="medium" />
+                                <div className="bg-gray_fundo_sec_mtfu p-3 w-72 max-h-34 flex flex-col gap-2 rounded-sm relative cursor-pointer">
+                                    <label className="w-full hover:brightness-90 transition cursor-pointer" htmlFor="multiple_files">
+                                        <img src={URL.createObjectURL(image)} alt="preview" className="w-64 max-h-32" />
+                                    </label>
+                                    <Typografy align="center" children="Titulo aqui" color="#878787" fontWeight={400} type="medium" />
+
+
+                                    <label className=" absolute right-[-3.5rem] top-0 bg-gray_hover p-1.5 rounded-sm cursor-pointer hover:brightness-90" htmlFor="multiple_files">
+                                      <Upload size={32} />
+                                    </label>
+                                </div>
+                                
+                                
+                                <input className="hidden" id="multiple_files" type="file" multiple={false} onChange={(e) => {setImage(e.target.files ? e.target.files[0] : null)}} />
+                            </> 
+                            : 
+                            <>
+                                <label className="w-full mb-2 rounded-sm bg-gray_fundo_sec_mtfu border border-mtfu flex flex-col items-center 
+                                justify-center min-h-44  hover:border-violet-900 hover:bg-opacity-40 cursor-pointer transition ease-out duration-3000" htmlFor="multiple_files">
+                                    <PlusCircle size={40} color={colors.mtfu} />
+                                    Adicionar capa
+                                </label>
+                                <input className="hidden" id="multiple_files" type="file" multiple={false} onChange={(e) => {setImage(e.target.files ? e.target.files[0] : null)}} />
+                            </>}
+                            
+
+                            <Input
+                                label="Nome:"
+                                variant="text"
+                                optional={false}
+                                type="text"
+                                placeholder="Preencha aqui..."
+                                errorMessage=""
+                                onChange={() => {}}
+                                className="w-1/2 mt-2" 
+                            />
+
+                            <Input
+                                label="Link:"
+                                variant="text"
+                                optional={false}
+                                type="text"
+                                placeholder="Preencha aqui..."
+                                errorMessage=""
+                                onChange={() => {}}
+                                className="w-1/2 mt-2" 
+                            />
+
+                            <TextArea 
+                            label="Descrição:"
+                            errorMessage=""
+                            onChange={() => {}}
+                            placeholder="Preencha aqui..."
+                            value=""/>
+
+                            <div className="w-full flex justify-end">
+                                <Button type="button" radius="4" textAlign="center" variant="normal"
+                                onClick={() => {}}> <span>Criar</span> </Button>
+                            </div>
+
+
+                            
+                        </div>
+                        
+                    </DialogContent>
+                </Dialog>
+
+             </div>
 
             <div className="flex w-full justify-between mt-2">
                 <Typografy align="left" children="Sprints" color="white" fontWeight={500} type="title" />
