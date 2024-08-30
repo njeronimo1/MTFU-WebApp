@@ -81,7 +81,7 @@ export function DesignProject({projectId, setTabActive} : DesignProject){
                 <Typografy align="left" children="Todo projeto necessita de um planejamento, utilize essa aba para colocar em ordem tudo que será feito daqui em diante."
                 color="#878787" fontWeight={400} type="footer" />
 
-                <div className="bg-gray_fundo_mtfu rounded-sm py-1 pl-2 pr-2 absolute right-1 h-10 top-0 w-[40%] xl:w-[25%] 2xl:w-[22%] flex items-center justify-around">
+                <div className="bg-gray_fundo_mtfu rounded-sm py-1 pl-2 pr-2 absolute right-1 h-10 top-0 w-[40%] xl:w-[30%] 2xl:w-[22%] flex items-center justify-around">
                     <div className="w-[45%] border-r flex pl-2 pr-2 gap-1">
                         <Typografy align="left" children="Data inicio: " color="white" fontWeight={400} type="footer" />
                         <Typografy align="left" children="12/02/2024" color="#878787" fontWeight={400} type="footer" />
@@ -202,7 +202,7 @@ export function DesignProject({projectId, setTabActive} : DesignProject){
 
                             <div className="w-full flex justify-end">
                                 <Button type="button" radius="4" textAlign="center" variant="normal"
-                                onClick={() => {}}> <span>Criar</span> </Button>
+                                onClick={() => {}} children={<span>Criar</span>} />
                             </div>
 
 

@@ -27,7 +27,7 @@ api.interceptors.request.use(
 const refreshToken = async () => {
     try {
       const resp = await api.get("Auth/refresh-token");
-        console.log("refresh token", resp.data);
+        // console.log("refresh token", resp.data);
       return resp.data;
     } catch (e) {
       console.log("Error",e);   

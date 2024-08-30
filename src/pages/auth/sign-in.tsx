@@ -106,11 +106,11 @@ export function SignIn() {
                             </span>                   
                         </Button>
 
-                        <div className="flex w-full justify-end text-white gap-2 items-center cursor-pointer hover:opacity-80"
+                        {/* <div className="flex w-full justify-end text-white gap-2 items-center cursor-pointer hover:opacity-80"
                         onClick={() => {navigate("/sign-up")}}>
                             <Typografy align="right" color="#FFF" fontWeight={500} type="medium" children="Cadastre-se" />
                             <img src={ArrowRight} alt="right" />
-                        </div>
+                        </div> */}
                     </div>
                 </form>
             </Form>

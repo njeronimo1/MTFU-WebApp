@@ -120,6 +120,7 @@ export function CreateProject(){
                                 optional={false}
                                 type="text"
                                 variant="text"
+                                errorMessage=""
                                 {...field} />
                             </FormControl>
                             <FormMessage />
@@ -203,7 +204,7 @@ export function CreateProject(){
                             </div>
                             
                             <div className="w-[2.5rem]">
-                                <Button children="Adicionar" radius="4" textAlign="center" variant="normal" / >
+                                <Button children={<span>Adicionar</span>} radius="4" textAlign="center" variant="normal" / >
                             </div>
                     </div>
                 </div>

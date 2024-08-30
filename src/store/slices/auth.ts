@@ -20,7 +20,7 @@ const initialState:UserState = {
 
 export const authenticate = createAsyncThunk(
     'auth/authenticate',
-    async (action) => {
+    async (action: any) => {
         const userAuth = await api.post('/Auth/login', action);
         localStorage.setItem('user', JSON.stringify(userAuth.data));
 
@@ -57,6 +57,7 @@ export const authSlice = createSlice({
         })
 
         builder.addCase(authenticate.fulfilled, (state, action) => {
+            state.user = action.payload;
             state.isLoading = false;
         })
 
