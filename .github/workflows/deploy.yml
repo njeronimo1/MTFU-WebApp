@@ -11,7 +11,7 @@ jobs:
     - name: Baixar o código
       uses: actions/checkout@v4
       
-    - name: "Copiar arquivo para VPS MTFU"
+    - name: Copiar arquivo para VPS MTFU
       uses: appleboy/scp-action@v0.1.7
       with:
         host: "191.101.18.75"
@@ -20,14 +20,14 @@ jobs:
         source: "."
         target: "/MTFU-WebApp"
 
-      - name: "Build e deploy da aplicação"
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: "191.101.18.75"
-          username: "root"
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd /MTFU-WebApp
-            npm i
-            npm run build 
-            cp -r dist/* /var/www/html
+    - name: Build e deploy da aplicação
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: "191.101.18.75"
+        username: "root"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /MTFU-WebApp
+          npm i
+          npm run build 
+          cp -r dist/* /var/www/html
