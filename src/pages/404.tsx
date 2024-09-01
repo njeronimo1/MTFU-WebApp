@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export function NotFound(){
     return(
@@ -12,6 +13,12 @@ export function NotFound(){
 }
 
 export function UserNotAuthenticated(){
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        navigate('/sign-in');
+    }, []);
+
     return(
         <div className="flex h-screen flex-col items-center justify-center gap-2">
             <h1 className="text-4xl font-bold">Voce precisa realizar o login para acessar essa pagina</h1>
