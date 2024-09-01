@@ -102,7 +102,7 @@ export function SignIn() {
                                 {isLoading && (
                                     <CircleNotch size={20} className="absolute right-14 top-0.5 animate-spin h-5 w-5 "/>
                                 )}
-                                Entrar
+                                Teste deploy
                             </span>                   
                         </Button>
 
