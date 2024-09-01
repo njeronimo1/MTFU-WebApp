@@ -30,5 +30,6 @@ jobs:
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd MTFU-WebApp
-          npm i
-          
+          npm install
+          npm run build 
+          cp -r dist/* /var/www/html
