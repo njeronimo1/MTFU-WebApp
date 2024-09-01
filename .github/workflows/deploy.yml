@@ -28,8 +28,4 @@ jobs:
         username: "root"
         password: ${{ secrets.PASSWORD }}
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /MTFU-WebApp
-          npm i
-          npm run build 
-          cp -r dist/* /var/www/html
+        script: cd /MTFU-WebApp npm i npm run build cp -r dist/* /var/www/html
