@@ -16,8 +16,8 @@ jobs:
       with:
         host: "191.101.18.75"
         username: "root"
-        password: ${{ secrets.PASSWORD }}
-        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "."
         target: "/MTFU-WebApp"
 
@@ -26,8 +26,8 @@ jobs:
       with:
         host: "191.101.18.75"
         username: "root"
-        password: ${{ secrets.PASSWORD }}
-        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # password: ${{ secrets.PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd /MTFU-WebApp
           npm i
