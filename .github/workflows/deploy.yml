@@ -18,18 +18,18 @@ jobs:
         username: "root"
         password: ${{ secrets.PASSWORD }}
         # key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "."
-        target: "/MTFU-WebApp"
+        source: "./dist"
+        target: "/var/www/html"
 
-    - name: Build e deploy da aplicação
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: "191.101.18.75"
-        username: "root"
-        password: ${{ secrets.PASSWORD }}
-        # key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd MTFU-WebApp
-          npm install
-          npm run build 
-          cp -r dist/* /var/www/html
+    # - name: Build e deploy da aplicação
+    #   uses: appleboy/ssh-action@v1.0.3
+    #   with:
+    #     host: "191.101.18.75"
+    #     username: "root"
+    #     password: ${{ secrets.PASSWORD }}
+    #     # key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     script: |
+    #       cd MTFU-WebApp
+    #       npm install
+    #       npm run build 
+    #       cp -r dist/* /var/www/html
