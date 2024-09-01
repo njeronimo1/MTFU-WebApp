@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Baixar o código"
-        uses: actions/checkout@v4
+    - name: Baixar o código
+      uses: actions/checkout@v4
       
-      - name: "Copiar arquivo para VPS MTFU"
+    - name: "Copiar arquivo para VPS MTFU"
       uses: appleboy/scp-action@v0.1.7
       with:
         host: "191.101.18.75"
