@@ -16,9 +16,13 @@ import {
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUser } from "@/store/slices/auth";
 import { UserNotAuthenticated } from "../404";
+import { GlobalLoader } from "./globalLoader";
+
 
 
 export function AppLayout(){
+
+   
 
     const dispatch = useAppDispatch();
 
@@ -38,9 +42,12 @@ export function AppLayout(){
     if(user == null){
         return <UserNotAuthenticated />;
     }
+// console.log(isFetching);
+    
 
     return(
         <>
+            <GlobalLoader />
             <div className="w-full flex lg:overflow-hidden">
                 <div className="hidden lg:flex w-1/6 bg-gray_fundo_mtfu h-screen">
                     <Menu />

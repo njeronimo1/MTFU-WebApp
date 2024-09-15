@@ -25,10 +25,27 @@ import { CardProject } from "@/components/Project/CardProject"
 import { PaginationComponent } from "@/components/Pagination"
 import { Link, useNavigate } from "react-router-dom"
 import { ArrowSquareOut } from "phosphor-react"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { getProjects } from "./project.request"
   
 
 export function Project(){
     const navigate = useNavigate();
+    const queryClient = useQueryClient()
+
+    // Queries
+    const {data, isPending, error} = useQuery({ queryKey: ['projects'], queryFn: () => {return getProjects({pageNumber: 1, pageSize: 10}) } })
+
+    // console.log(data?.$values);
+    // Mutations
+    // const mutation = useMutation({
+    //     mutationFn: postTodo,
+    //     onSuccess: () => {
+    //     // Invalidate and refetch
+    //     queryClient.invalidateQueries({ queryKey: ['todos'] })
+    //     },
+    // })
+
     return(
         <>
             <div className=" pl-4 pr-4 py-2.5 relative flex justify-between">
@@ -103,125 +120,25 @@ export function Project(){
                                 scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu">
                 <Typografy align="left" children="Lista de projetos:" color="#878787" fontWeight={400} type="footer"/>
 
+                
                 <div className="flex w-full flex-wrap gap-4">
                     
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-
-                        <div className="w-full lg:w-[49%]">
-                            <CardProject 
-                                title="Projeto 1"
-                                categoria="Sustentacao"
-                                dateDelivery="22/07/2024"
-                                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id faucibus tellus, dapibus volutpat risus. Nunc eget iaculis mauris, vel viverra tellus"
-                                projectId={1}
-                                sprints={3}
-                                key={1}
-                                users={{}}
-                            />
-                        </div>
-                    
+                        {data?.map((project) => {
+                            return(
+                                <div className="w-full lg:w-[49%]">
+                                    <CardProject 
+                                        title={project.title}
+                                        categoria={project.category}
+                                        dateDelivery={project.endDate}
+                                        description={project.description}
+                                        projectId={project.projectId}
+                                        sprints={0}
+                                        key={project.projectId}
+                                        users={project.projects_Users}
+                                    />
+                                </div>
+                            )
+                        })}
                 </div>
 
                 <div className="absolute bottom-3">

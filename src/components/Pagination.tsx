@@ -22,8 +22,7 @@ import {
                     <PaginationEllipsis />
                 </PaginationItem>
                 <PaginationItem>
-                    
-                    <PaginationNext href="#" />
+                    <PaginationNext  href="#" />
                 </PaginationItem>
             </PaginationContent>
         </Pagination>

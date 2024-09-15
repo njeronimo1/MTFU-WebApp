@@ -25,6 +25,7 @@ export function ProjectDetail(){
 
     const { id } = useParams();
 
+
     const [conclusionProject, setConclusionProject] = useState('');
     const [tabActive, setTabActive] = useState<tabs>('planning');
 
@@ -98,7 +99,8 @@ export function ProjectDetail(){
 
                 <div className="p-4 w-2/3 h-[7.5rem]">
                     <div className="flex gap-4">
-                        <Typografy align="left" children="Fase:" color="white" fontWeight={400} type="medium" />
+                        <Typografy align="left" children="Fase:"
+                         color="white" fontWeight={400} type="medium" />
                         
                         <Select>
                             <SelectTrigger className="w-2/6 bg-gray_fundo_sec_mtfu text-white
@@ -131,7 +133,7 @@ export function ProjectDetail(){
                                 <Typografy align="left" children="Tasks à fazer" color="white" fontWeight={400} type="medium" />
                             </div>
                         </div>
-                        
+                       
                         
                         <div className="ml-2 w-1/3">
                             <div className="bg-mtfu p-2 rounded-sm">
@@ -226,7 +228,6 @@ export function ProjectDetail(){
                 <TabsContent value="deploy">
                    implantacao
                 </TabsContent>
-
                 
             </Tabs>
         </div>

@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Button, Input, TextArea, Typografy } from "@mtfu/react";
-import { useState } from "react";
-import { UsersList } from "./projectTypes";
+import { useEffect, useState } from "react";
+import { CategoriesResource, CreateProjectType, ResponsibleResource, UserResource, UsersList } from "./projectTypes";
 import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -32,17 +32,27 @@ import {
 
 //imgs
 import { ArrowSquareOut, Trash } from "phosphor-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { badgeVariants } from "@/components/ui/badge";
+import { getResourcesForProject, postCreateProject } from "./project.request";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const createProjectFormSchema = z.object({
     title: z.string().min(4, {message:'Titulo precisa ter ao menos 4 caracteres'}),
-    responsibleId: z.string({message: 'Campo obrigatório'}),
-    categoryId: z.string({message: 'Campo obrigatório'}),
+    responsible: z.string({message: 'Campo obrigatório'}),
+    category: z.string({message: 'Campo obrigatório'}),
     description: z.string().min(10, {message:"Descricao precisa ter ao menos 10 caracteres"}),
 })
 
 export function CreateProject(){
+
+    const navigate = useNavigate();
+
+    const [responsiblesList, setResponsiblesList] = useState<ResponsibleResource[]>([]);
+    const [categoriesList, setCategoriesList] = useState<CategoriesResource[]>([]);
+    const [usersList, setUsersList] = useState<UserResource[]>([]);
+    const [selectUsersList, setSelectUsersList] = useState<UserResource[]>([]);
 
     const form = useForm<z.infer<typeof createProjectFormSchema>>({
         resolver: zodResolver(createProjectFormSchema),
@@ -53,26 +63,69 @@ export function CreateProject(){
 
     function handleSubmitProject(data: z.infer<typeof createProjectFormSchema>){
         console.log(data);
+
+        let userlist = selectUsersList.map((user) => {return {userName: user.nameCompleted}});
+
+        let createProject: CreateProjectType = {
+            project: {
+                category: data.category,
+                description: data.description,
+                responsible: data.responsible,
+                title: data.title,
+                createDate: new Date(),
+            },
+            usersList: userlist
+        }
+
+        mutation.mutate(createProject);
     }
 
-    const [usersList, setUsersList] = useState<UsersList[]>([
-        {   
-            function: "front-end",
-            name: "Nicolas Jerônimo",
-            userId: 1
+    const {data: resourcesForProject, isPending, error} = useQuery({ queryKey: ['resources'], queryFn: getResourcesForProject})
+    // Mutations
+    
+    const mutation = useMutation({
+        mutationFn: (data: CreateProjectType) => {
+            return postCreateProject(data);
         },
-        {   
-            function: "front-end",
-            name: "Nicolas Jerônimo",
-            userId: 2
-        }
-    ]);
+        onSuccess: () => {
+            // Invalidate and refetch
+            toast.success('Projeto criado com sucesso!');
+            navigate('/project');
+        },
+    })
 
-    function handlerUsersList(id: number, action: 'remove' | 'add'){
-        if(action == 'remove'){
-            let filter = usersList.filter((u) => u.userId !== id);
-            setUsersList(filter);
+    // const mutation = useMutation({
+    //     mutationFn: (newTodo) => {
+    //       return axios.post('/todos', newTodo)
+    //     },
+    //   })
+
+    useEffect(() => {
+        if(resourcesForProject){
+            setCategoriesList(resourcesForProject.categories);
+            setResponsiblesList(resourcesForProject.responsibles);
+            setUsersList(resourcesForProject.users);
         }
+    }, [resourcesForProject]);
+
+    function handlerUsersList(id: string, action: 'remove' | 'add'){
+        console.log(`handleUsers` + id);
+        if(action == 'remove'){
+            let filter = selectUsersList.filter((u) => u.userId !== id);
+            setSelectUsersList(filter);
+        }else{
+            let filter = usersList.filter((u) => u.userId == id);
+            let filterIfExists = selectUsersList.filter(select => select.userId == filter[0].userId).length;
+
+            if(filterIfExists > 0){
+                toast.error('Usuario ja existe na lista!')
+            }else{
+                filter.push(...selectUsersList);
+                setSelectUsersList(filter);
+            }
+            
+        }
+        
     }
     
     return(
@@ -136,7 +189,7 @@ export function CreateProject(){
                         <Typografy fontWeight={600} type="medium" color="white" children="Responsável" align="left"  />
                         <FormField
                             control={form.control}
-                            name="responsibleId"
+                            name="responsible"
                             render={({ field }) => (
                                 <FormItem>
                                 <Select onValueChange={field.onChange} 
@@ -149,7 +202,11 @@ export function CreateProject(){
                                     </FormControl>
                                     <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
                                         <SelectGroup>
-                                            <SelectItem value="1" className="hover:bg-mtfu">More than follow up</SelectItem>
+                                            {responsiblesList?.map((res) => {
+                                                return(
+                                                    <SelectItem value={res.name} key={res.responsibleId} className="hover:bg-mtfu">{res.name}</SelectItem>
+                                                )
+                                            })}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -163,7 +220,7 @@ export function CreateProject(){
                         <Typografy fontWeight={600} type="medium" color="white" children="Categoria" align="left"  />
                         <FormField
                             control={form.control}
-                            name="categoryId"
+                            name="category"
                             render={({ field }) => (
                                 <FormItem>
                                 <Select onValueChange={field.onChange} 
@@ -176,7 +233,11 @@ export function CreateProject(){
                                     </FormControl>
                                     <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
                                         <SelectGroup>
-                                            <SelectItem value="1" className="hover:bg-mtfu">More than follow up</SelectItem>
+                                            {categoriesList?.map((cat) => {
+                                                return(
+                                                    <SelectItem value={cat.name} key={cat.categoryId} className="hover:bg-mtfu">{cat.name}</SelectItem>
+                                                )
+                                            })}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
@@ -191,25 +252,42 @@ export function CreateProject(){
                     <div className="w-2/4 flex gap-[1rem] items-end">
                             <div className="flex flex-col gap-[0.5rem] w-1/2">
                                 <Typografy fontWeight={600} type="medium" color="white" children="Usuarios" align="left"  />
-                                <Select>
+                                <Select onValueChange={(e) => {handlerUsersList(e, 'add')
+                                    }}>
                                     <SelectTrigger className="w-full h-12 bg-gray_fundo_sec_mtfu text-white border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3">
                                         <SelectValue placeholder="Selecione um usuário" />
                                     </SelectTrigger>
                                     <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
                                         <SelectGroup>
-                                            <SelectItem value="1" className="hover:bg-mtfu">Nicolas Jerônimo</SelectItem>
+                                            {/* <SelectItem value="1" className="hover:bg-mtfu">Nicolas Jerônimo</SelectItem> */}
+                                            {usersList?.map((user) => {
+                                                return(
+                                                    <SelectItem 
+                                                    value={user.userId} 
+                                                    key={user.userId}
+                                                    className="hover:bg-mtfu"
+                                                    
+                                                    >{user.nameCompleted}</SelectItem>
+                                                )
+                                            })}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
                             </div>
                             
-                            <div className="w-[2.5rem]">
-                                <Button children={<span>Adicionar</span>} radius="4" textAlign="center" variant="normal" / >
-                            </div>
+                            {/* <div className="w-[2.5rem]">
+                                <Button 
+                                children={<span>Adicionar</span>} 
+                                type="button" 
+                                onClick={handleAddUser} 
+                                radius="4" 
+                                textAlign="center" 
+                                variant="normal" / >
+                            </div> */}
                     </div>
                 </div>
 
-                {usersList.length > 0 && (
+                 {selectUsersList.length > 0 && (
                     <div className="w-full py-4 flex flex-col">
                         <Table>
                             <TableHeader>
@@ -220,10 +298,10 @@ export function CreateProject(){
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {usersList.map((user) => {
+                                {selectUsersList.map((user) => {
                                     return(
                                         <TableRow key={user.userId} className="hover:bg-transparent border-b-separator_app">
-                                            <TableCell className="font-medium text-gray_text cursor-default">{user.name}</TableCell>
+                                            <TableCell className="font-medium text-gray_text cursor-default">{user.nameCompleted}</TableCell>
                                             <TableCell className="text-gray_text cursor-default">{user.function}</TableCell>
                                             <TableCell className="text-right cursor-pointer hover:brightness-150"
                                             onClick={() => {handlerUsersList(user.userId, 'remove')}}>{<Trash size={20} color="#878787"/>}</TableCell>
@@ -236,7 +314,7 @@ export function CreateProject(){
                         </Table>
                         
                     </div>
-                )}
+                )} 
 
                 <div className="w-full py-4 text-white flex gap-6 flex-col">
                     <div className="w-full">

@@ -8,6 +8,7 @@ import {
 import { ArrowSquareOut } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
   
+import { format, compareAsc } from "date-fns";
 
 interface CardProjectProps{
     projectId: number | string,
@@ -25,7 +26,7 @@ export function CardProject({projectId, title, description, dateDelivery, sprint
     return(
         <TooltipProvider>
             <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger className="w-full">
                     <div onClick={() => {navigate(`/project/${projectId}`)}} 
                     className="w-full rounded-xl bg-gray_fundo_mtfu p-4 hover:bg-gray_hover cursor-pointer ease-in duration-300">
                         <header className="w-full flex justify-between">
@@ -45,8 +46,8 @@ export function CardProject({projectId, title, description, dateDelivery, sprint
 
                         <div className="flex w-full gap-2 mt-4">
                             <div className="w-3/4 gap-2 flex">
-                                <Typografy align="left" children={dateDelivery} color="#878787" fontWeight={400} type="footer" />
-                                <Typografy align="left" children={'Sprints' + sprints} color="#878787" fontWeight={400} type="footer" />
+                                {/* <Typografy align="left" children={dateDelivery} color="#878787" fontWeight={400} type="footer" /> */}
+                                <Typografy align="left" children={'Sprints: ' + sprints} color="#878787" fontWeight={400} type="footer" />
                                 <Typografy align="left" children={"Categoria: " + categoria} color="#878787" fontWeight={400} type="footer" />
                             </div>
                             <div className="1/4">
