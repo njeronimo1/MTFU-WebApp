@@ -62,7 +62,6 @@ export function CreateProject(){
       });
 
     function handleSubmitProject(data: z.infer<typeof createProjectFormSchema>){
-        console.log(data);
 
         let userlist = selectUsersList.map((user) => {return {userName: user.nameCompleted}});
 
