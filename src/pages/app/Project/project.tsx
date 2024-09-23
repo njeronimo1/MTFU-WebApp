@@ -69,7 +69,6 @@ export function Project(){
         }
     }, [resourcesForProject]);
 
-
     return(
         <>
             <div className=" pl-4 pr-4 py-2.5 relative flex justify-between">
