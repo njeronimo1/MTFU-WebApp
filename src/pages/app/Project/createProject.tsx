@@ -63,7 +63,7 @@ export function CreateProject(){
 
     function handleSubmitProject(data: z.infer<typeof createProjectFormSchema>){
 
-        let userlist = selectUsersList.map((user) => {return {userName: user.nameCompleted}});
+        let userlist = selectUsersList.map((user) => {return {completedName: user.nameCompleted}});
 
         let createProject: CreateProjectType = {
             project: {
@@ -92,12 +92,6 @@ export function CreateProject(){
             navigate('/project');
         },
     })
-
-    // const mutation = useMutation({
-    //     mutationFn: (newTodo) => {
-    //       return axios.post('/todos', newTodo)
-    //     },
-    //   })
 
     useEffect(() => {
         if(resourcesForProject){

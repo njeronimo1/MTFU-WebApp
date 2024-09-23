@@ -10,9 +10,18 @@ interface projects {
     description: string
 }
 
+interface paramsProject{
+    pageNumber: number,
+    pageSize: number,
+    category: string,
+    status: string,
+    searchText:string
+}
 
-export const getProjects = (data:any):Promise<ProjectReturnApi[]> => {
-    return api.get(`/Project/pagination?PageNumber=${data.pageNumber}&PageSize=${data.pageSize}`).then((res) => res.data);
+
+export const getProjects = (data:paramsProject):Promise<ProjectReturnApi[]> => {
+    return api.get(`/Project/pagination?PageNumber=${data.pageNumber}
+    &PageSize=${data.pageSize}&parameter=${data.searchText}&category=${data.category}&status=${data.status}`).then((res) => res.data);
 }
 
 export const getResourcesForProject = ():Promise<ResourcesProject> => {

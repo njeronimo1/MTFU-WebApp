@@ -31,7 +31,8 @@ export interface CreateProjectType{
 export interface ResourcesProject{
     users: UserResource[],
     responsibles: ResponsibleResource[],
-    categories: CategoriesResource[]
+    categories: CategoriesResource[],
+    statusProjects: 
 }
 
 export interface UserResource{
@@ -41,15 +42,20 @@ export interface UserResource{
 }
 
 export interface UserResourceCreateProjet{
-    userName: string
+    completedName: string
 }
 
 export interface ResponsibleResource{
-    responsibleId: 0,
+    responsibleId: number,
     name: string
 }
 
 export interface CategoriesResource{
-    categoryId: 0,
+    categoryId: number,
+    name: string
+}
+
+export interface StatusResource{
+    statusProjectId: number,
     name: string
 }

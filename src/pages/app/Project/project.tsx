@@ -22,29 +22,52 @@ import { Button, Input, Typografy } from "@mtfu/react"
 //img
 import search from '../../../assets/search.png'
 import { CardProject } from "@/components/Project/CardProject"
-import { PaginationComponent } from "@/components/Pagination"
-import { Link, useNavigate } from "react-router-dom"
+import { Pagination } from "@/components/Pagination"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowSquareOut } from "phosphor-react"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { getProjects } from "./project.request"
+import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
+import { getProjects, getResourcesForProject } from "./project.request"
+import { useEffect, useState } from "react"
+import { CategoriesResource, StatusResource } from "./projectTypes"
   
 
 export function Project(){
     const navigate = useNavigate();
     const queryClient = useQueryClient()
 
-    // Queries
-    const {data, isPending, error} = useQuery({ queryKey: ['projects'], queryFn: () => {return getProjects({pageNumber: 1, pageSize: 10}) } })
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    // console.log(data?.$values);
-    // Mutations
-    // const mutation = useMutation({
-    //     mutationFn: postTodo,
-    //     onSuccess: () => {
-    //     // Invalidate and refetch
-    //     queryClient.invalidateQueries({ queryKey: ['todos'] })
-    //     },
-    // })
+    const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+
+    // const [responsiblesList, setResponsiblesList] = useState<ResponsibleResource[]>([]);
+    const [categoriesList, setCategoriesList] = useState<CategoriesResource[]>([]);
+    const [statusList, setStatusList] = useState<StatusResource[]>([]);
+    const [category, setCategory] = useState('');
+    const [status, setStatus] = useState('');
+    const [searchText, setSearchText] = useState('');
+
+    // Queries
+    const {data: projects, isLoading} = useQuery({ 
+        queryKey: ['projects', category, status, page], 
+        queryFn: async () => {
+            return await getProjects({pageNumber: page, pageSize: 10, category: category, searchText: searchText, status: status}) 
+        },
+        placeholderData: keepPreviousData,
+    })
+    
+    const {data: resourcesForProject} = useQuery({ 
+        queryKey: ['getProjectResources'], 
+        queryFn: () => {
+            return getResourcesForProject() 
+        } })
+    
+    useEffect(() => {
+        if(resourcesForProject){
+            setCategoriesList(resourcesForProject.categories);
+            setStatusList(resourcesForProject.statusProjects)
+        }
+    }, [resourcesForProject]);
+
 
     return(
         <>
@@ -73,19 +96,24 @@ export function Project(){
                     <div className="w-1/4 flex  justify-start flex-col gap-1">
                         <Typografy align="left" children="Pesquisar:" color="#878787" fontWeight={400} type="footer"/>
                         <Input label="" variant="search" optional={false} type="text" placeholder="Titulo, categoria"
-                        errorMessage="" imgSearch={search} onChange={() => {}}/>
+                        errorMessage="" imgSearch={search} onChange={(e) => {setSearchText(e.target.value)}}/>
                     </div>
 
                     <div className="flex flex-col gap-1">
                         <Typografy align="left" children="Categoria:" color="#878787" fontWeight={400} type="footer"/>
-                        <Select>
+                        <Select onValueChange={(e) => {setCategory(e)}}>
                             <SelectTrigger className="w-full lg:w-52 bg-white pl-3 text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
                                 <SelectValue placeholder="Selecione uma categoria" />
                             </SelectTrigger>
                             <SelectContent className="w-full lg:z-50 bg-white text-gray-500 border-gray-500">
                                 <SelectGroup>
-                                    {/* <SelectLabel>Fruits</SelectLabel> */}
-                                    <SelectItem value="1" className="hover:bg-mtfu">Sprint 1</SelectItem>
+                                <SelectGroup>
+                                    {categoriesList?.map((cat) => {
+                                        return(
+                                            <SelectItem value={cat.name} key={cat.categoryId} className="hover:bg-mtfu">{cat.name}</SelectItem>
+                                        )
+                                    })}
+                                </SelectGroup>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -93,14 +121,17 @@ export function Project(){
 
                     <div className="flex flex-col gap-1">
                         <Typografy align="left" children="Status:" color="#878787" fontWeight={400} type="footer"/>
-                        <Select>
+                        <Select onValueChange={(e) => {setStatus(e)}}>
                             <SelectTrigger className="w-full lg:w-52 bg-white text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
                                 <SelectValue placeholder="Selecione um status" />
                             </SelectTrigger>
                             <SelectContent className="w-full lg:z-50 bg-white text-gray-500 border-gray-500">
                                 <SelectGroup>
-                                    {/* <SelectLabel>Fruits</SelectLabel> */}
-                                    <SelectItem value="1" className="hover:bg-mtfu">Sprint 1</SelectItem>
+                                    {statusList?.map((cat) => {
+                                        return(
+                                            <SelectItem value={cat.name} key={cat.statusProjectId} className="hover:bg-mtfu">{cat.name}</SelectItem>
+                                        )
+                                    })}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
@@ -123,7 +154,7 @@ export function Project(){
                 
                 <div className="flex w-full flex-wrap gap-4">
                     
-                        {data?.map((project) => {
+                        {projects?.map((project) => {
                             return(
                                 <div className="w-full lg:w-[49%]">
                                     <CardProject 
@@ -141,8 +172,9 @@ export function Project(){
                         })}
                 </div>
 
-                <div className="absolute bottom-3">
-                  <PaginationComponent />
+                <div className="absolute bottom-3 right-3">
+                 {projects && <Pagination items={projects.length} page={page} pages={3}/>}
+                  
                 </div>
             </div>
             

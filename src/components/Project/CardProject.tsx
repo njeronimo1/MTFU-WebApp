@@ -25,7 +25,7 @@ export function CardProject({projectId, title, description, dateDelivery, sprint
 
     return(
         <TooltipProvider>
-            <Tooltip>
+            <Tooltip key={projectId}>
                 <TooltipTrigger className="w-full">
                     <div onClick={() => {navigate(`/project/${projectId}`)}} 
                     className="w-full rounded-xl bg-gray_fundo_mtfu p-4 hover:bg-gray_hover cursor-pointer ease-in duration-300">
