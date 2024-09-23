@@ -32,7 +32,7 @@ export interface ResourcesProject{
     users: UserResource[],
     responsibles: ResponsibleResource[],
     categories: CategoriesResource[],
-    statusProjects: 
+    statusProjects: StatusResource[]
 }
 
 export interface UserResource{

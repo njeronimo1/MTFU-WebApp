@@ -28,7 +28,8 @@ import { ArrowSquareOut } from "phosphor-react"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getProjects, getResourcesForProject } from "./project.request"
 import { useEffect, useState } from "react"
-import { CategoriesResource, StatusResource } from "./projectTypes"
+import { CategoriesResource, ProjectReturnApi, StatusResource } from "./projectTypes"
+import { GenericResponsePagination, GenericReturnAPI } from "@/_types/GenericReturnAPI"
   
 
 export function Project(){
@@ -50,7 +51,7 @@ export function Project(){
     const {data: projects, isLoading} = useQuery({ 
         queryKey: ['projects', category, status, page], 
         queryFn: async () => {
-            return await getProjects({pageNumber: page, pageSize: 10, category: category, searchText: searchText, status: status}) 
+            return await getProjects({pageNumber: page, pageSize: 10, category: category, searchText: searchText, status: status});
         },
         placeholderData: keepPreviousData,
     })
@@ -154,9 +155,9 @@ export function Project(){
                 
                 <div className="flex w-full flex-wrap gap-4">
                     
-                        {projects?.map((project) => {
+                        {projects?.data.map((project) => {
                             return(
-                                <div className="w-full lg:w-[49%]">
+                                <div className="w-full lg:w-[49%]" key={project.projectId}>
                                     <CardProject 
                                         title={project.title}
                                         categoria={project.category}
@@ -173,7 +174,7 @@ export function Project(){
                 </div>
 
                 <div className="absolute bottom-3 right-3">
-                 {projects && <Pagination items={projects.length} page={page} pages={3}/>}
+                 {projects?.headers && <Pagination items={projects.headers?.TotalItemCount} page={page} pages={projects.headers?.PageCount}/>}
                   
                 </div>
             </div>
