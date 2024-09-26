@@ -22,9 +22,8 @@ interface paramsProject{
 
 
 export const getProjects = async (data:paramsProject):Promise<GenericReturnAPI<ProjectReturnApi[], GenericResponsePagination>> => {
-    let req = await api.get(`/Project/pagination?PageNumber=${data.pageNumber}
+    let req = await api.get(`/Project/get?PageNumber=${data.pageNumber}
     &PageSize=${data.pageSize}&parameter=${data.searchText}&category=${data.category}&status=${data.status}`).then((res) => {
-        console.log(res.headers['x-pagination']);
         let response: GenericReturnAPI<ProjectReturnApi[], GenericResponsePagination> = {
             data: res.data,
             headers: JSON.parse(res.headers['x-pagination']),

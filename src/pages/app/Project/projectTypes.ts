@@ -12,9 +12,7 @@ export interface ProjectReturnApi{
     description: string,
     createDate: string,
     endDate: string,
-    projects_Users: [
-        string
-    ]
+    projects_Users: string[]
 }
 
 export interface CreateProjectType{
