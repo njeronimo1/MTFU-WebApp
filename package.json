@@ -16,7 +16,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.9.0",
-    "@mtfu/react": "^12.11.0",
+    "@mtfu/react": "^12.12.0",
     "@mtfu/tokens": "^3.0.0",
     "@mui/material": "^5.16.0",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -30,9 +30,11 @@
     "@radix-ui/react-toast": "^1.2.1",
     "@radix-ui/react-tooltip": "^1.1.2",
     "@reduxjs/toolkit": "^2.2.7",
+    "@tanstack/react-query": "^5.55.0",
     "axios": "^1.7.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
     "lucide-react": "^0.401.0",
     "phosphor-react": "^1.4.1",
     "react": "^18.3.1",
@@ -48,6 +50,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.53.0",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
