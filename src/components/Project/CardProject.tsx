@@ -17,7 +17,7 @@ interface CardProjectProps{
     dateDelivery: string,
     sprints: number,
     categoria: string,
-    users?: {},
+    users?: string[],
 }
 
 export function CardProject({projectId, title, description, dateDelivery, sprints, categoria, users}:CardProjectProps){
@@ -33,9 +33,11 @@ export function CardProject({projectId, title, description, dateDelivery, sprint
                             <Typografy align="left" children={title} color="white" fontWeight={500} type="title" />
 
                             <div className="flex gap-2">
-                                <Avatar />
-                                <Avatar />
-                                <Avatar />
+                                {users?.map((usr) => {
+                                    return(
+                                        <Avatar alt={usr.split(' ')[0].slice(0, 1) + usr.split(' ')[1].slice(0, 1)} />
+                                    )
+                                })}
                             </div>
                         </header>
 
