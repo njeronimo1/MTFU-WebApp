@@ -138,7 +138,7 @@ export function Project(){
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleFilter)}>
                     <header className="w-full flex flex-col lg:flex-row p-4 pl-4 pr-4 items-end justify-between">
-                        <div className="w-full lg:w-3/4 flex flex-col lg:flex-row  gap-4">
+                        <div className="w-full lg:w-3/4 flex flex-col lg:flex-row gap-4">
                             <div className="w-1/4 flex  justify-start flex-col gap-1">
                                 <Typografy align="left" children="Pesquisar:" color="#878787" fontWeight={400} type="footer"/>
                                 
@@ -149,8 +149,11 @@ export function Project(){
                                     <FormItem>
                                     {/* <FormLabel>Username</FormLabel> */}
                                     <FormControl>
-                                    <Input label="" variant="search" optional={false} type="text" placeholder="Titulo, categoria"
-                                     errorMessage="" imgSearch={search} {...field}/>
+                                        <input type="text" className="bg-white w-full p-2 rounded-md h-10 outline-0 text-sm placeholder:text-gray-500 text-[#6e737e] focus:ring-gray-500 focus:ring-offset-3" 
+                                        placeholder="Titulo, categoria..." 
+                                        {...field}/>
+                                    {/* <Input label="" variant="search" optional={false} type="text" placeholder="Titulo, categoria"
+                                     errorMessage="" imgSearch={search} {/> */}
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -170,7 +173,7 @@ export function Project(){
                                         <FormItem>
                                         <Select onValueChange={field.onChange} defaultValue={urlCategory}>
                                             <SelectTrigger className="w-full lg:w-52 bg-white pl-3 text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
-                                                <SelectValue placeholder="Selecione uma categoria" />
+                                                <SelectValue placeholder="Selecione uma categoria" className="text-gray-500"/>
                                             </SelectTrigger>
                                             <SelectContent className="w-full lg:z-50 bg-white text-gray-500 border-gray-500">
 
@@ -200,7 +203,7 @@ export function Project(){
                                         <FormItem>
                                         <Select onValueChange={field.onChange} defaultValue={urlStatus}>
                                             <SelectTrigger className="w-full lg:w-52 bg-white text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
-                                                <SelectValue placeholder="Selecione um status" />
+                                                <SelectValue placeholder="Selecione um status" className="text-gray-500"/>
                                             </SelectTrigger>
                                             <SelectContent className="w-full lg:z-50 bg-white text-gray-500 border-gray-500">
                                                 <SelectGroup>
@@ -219,8 +222,8 @@ export function Project(){
                                 
                                 
                             </div>
-                            <div className="mt-6">
-                                <Button variant="normal" className="cursor-pointer" type="submit" radius="4" textAlign="center" children={<MagnifyingGlass size={20} />}></Button>
+                            <div className="relative top-[1.3rem]">
+                                <Button variant="normal" className="cursor-pointer h-10" type="submit" radius="4" textAlign="center" children={<MagnifyingGlass size={20} />}></Button>
                             </div>
                         </div>
                         <div className="w-full lg:w-1/4 flex lg:justify-end mt-4 lg:mt-0" onClick={() => {navigate('create-project')}}>

@@ -57,10 +57,12 @@ import {
         return params
       })
     }
+
+    const pageInfo = items - (10 * page) 
   
     return (
       <div className="flex text-sm items-center justify-between text-zinc-500">
-        <span>10 de {items} itens </span>
+        <span>{(10 * page) > items ? (10 * page) + pageInfo : (10 * page)} de {items} itens </span>
         <div className="flex items-center gap-2 pl-2">
   
           <span>Pagina {page} de {pages}</span>

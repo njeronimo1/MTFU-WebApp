@@ -15,9 +15,9 @@ export function NotFound(){
 export function UserNotAuthenticated(){
     const navigate = useNavigate();
 
-    useEffect(() => {
-        navigate('/sign-in');
-    }, []);
+    // useEffect(() => {
+    //     navigate('/sign-in');
+    // }, []);
 
     return(
         <div className="flex h-screen flex-col items-center justify-center gap-2">

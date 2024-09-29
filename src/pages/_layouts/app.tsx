@@ -22,8 +22,6 @@ import { GlobalLoader } from "./globalLoader";
 
 export function AppLayout(){
 
-   
-
     const dispatch = useAppDispatch();
 
     const { user } = useAppSelector(store => {
@@ -42,7 +40,6 @@ export function AppLayout(){
     if(user == null){
         return <UserNotAuthenticated />;
     }
-// console.log(isFetching);
     
 
     return(
