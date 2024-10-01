@@ -1,14 +1,13 @@
 import { Editor } from "@/components/Editor/Editor";
 import { Separator } from "@/components/ui/separator";
-import { Button, Input, TextArea, Typografy } from "@mtfu/react";
-import { Block } from "@blocknote/core";
+import { Button, Input, Typografy } from "@mtfu/react";
+
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardSprint } from "@/components/Sprint/CardSprint";
 import { toast } from 'react-toastify';
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -19,6 +18,10 @@ import {
 import { api } from "@/lib/axios";
 import { tabs } from "@/pages/app/Project/projectDetail";
 import { Clock } from "phosphor-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { GetPlanningData, SaveAltersPlanning, UpdateAltersPlanning } from "./planning.request";
+import { SaveAltersPlanningType, UpdateAltersPlanningType } from "./planning.types";
   
 
 interface PlanningProject {
@@ -28,9 +31,23 @@ interface PlanningProject {
 
 export function PlanningProject({projectId, setTabActive} : PlanningProject){
 
+    const navigate = useNavigate();
+
+    const {data: planning} = useQuery({ 
+        queryKey: ['planning'], 
+        queryFn: async () => {
+            return await GetPlanningData(Number(projectId));
+        },
+        // placeholderData: keepPreviousData,
+    })
+
     const [contentEditor, setContentEditor] = useState<string>('');
+    const [linkDocumentation, setLinkDocumentation] = useState<string>('');
     const [showEditor, setShowEditor] = useState(false);
     const [openModalAvanceFase, setOpenModalAvanceFase] = useState(false);
+
+    // get planning
+    
 
     useEffect(() => {
         if(contentEditor.length > 0){
@@ -40,19 +57,25 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
     }, [contentEditor]);
 
     useEffect(() => {
-        let editor = localStorage.getItem('editor');
+        const editor = planning?.planningDTO.planningDescription;
+        // const editor = localStorage.getItem('editor');
         if(editor){
-            let data = JSON.parse(editor);
+            const data = JSON.parse(editor);
             setContentEditor(data);
+            
             setShowEditor(true);
         }else{
             setShowEditor(true);
         }
-    }, []);
+
+        if(planning?.planningDTO.documentationLink){
+            setLinkDocumentation(planning?.planningDTO.documentationLink);
+        }
+    }, [planning, projectId]);
 
 
     async function avanceFase(){
-        let avance = await toast.promise(
+        const avance = await toast.promise(
             api.post('/'),
             {
               pending: 'Processando...',
@@ -68,17 +91,67 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
         setOpenModalAvanceFase(false);
     }
 
-    async function saveAlters(){
-        await toast.promise(
-            api.post('/'),
-            {
-              pending: 'Salvando alteracoes...',
-              success: 'Alteracoes salvas com sucesso!',
-              error: 'Erro ao salvar alteracoes 🤯'
-            }
-        );
+    const mutationSaveAlters = useMutation({
+        mutationFn: (data:SaveAltersPlanningType) => {
+            return SaveAltersPlanning(data);
+            
+        },
+        onSuccess(data) {
+            setLinkDocumentation(data.documentationLink);
+            setContentEditor(JSON.parse(data.planningDescription));
 
-        setOpenModalAvanceFase(false);
+            toast.success('Dados salvos com sucesso!');
+        },
+        onError(error) {
+            toast.error(error.message);
+        },
+    })
+
+    const mutationUpdateAlters = useMutation({
+        mutationFn: (data:UpdateAltersPlanningType) => {
+            return UpdateAltersPlanning(data);
+        },
+        onSuccess(data) {
+            setLinkDocumentation(data.documentationLink);
+            setContentEditor(JSON.parse(data.planningDescription));
+
+            toast.success('Dados salvos com sucesso!');
+        },
+        onError(error) {
+            toast.error(error.message);
+        },
+    })
+
+    async function saveAlters(){
+        const data: SaveAltersPlanningType = {
+            documentationLink: linkDocumentation,
+            planningDescription: JSON.stringify(contentEditor),
+            projectId: Number(projectId) 
+        }
+
+        const dataUpdate: UpdateAltersPlanningType = {
+            documentationLink: linkDocumentation,
+            planningDescription: JSON.stringify(contentEditor),
+            planningId: Number(projectId) 
+        }
+
+        if(planning?.planningDTO.planningId){
+            mutationUpdateAlters.mutate(dataUpdate);
+        }else{
+            mutationSaveAlters.mutate(data);
+        }
+        
+
+        // await toast.promise(
+        //     mutationSaveAlters,
+        //     {
+        //       pending: 'Salvando alteracoes...',
+        //       success: 'Alteracoes salvas com sucesso!',
+        //       error: 'Erro ao salvar alteracoes 🤯'
+        //     }
+        // );
+
+        // setOpenModalAvanceFase(false);
     }
 
 
@@ -114,25 +187,17 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
                     label="Link para documentacao em outro site?"
                     variant="text"
                     optional={false}
+                    value={linkDocumentation}
                     type="text"
                     placeholder="Preencha aqui..."
                     errorMessage=""
-                    onChange={() => {}}
+                    onChange={(e) => {setLinkDocumentation(e.target.value)}}
                     className="w-1/2 mt-2" 
                 />
              </div>
              
 
             <div className="mt-2">
-                {/* <TextArea 
-                    label="Planejamento"
-                    placeholder="Preencha aqui..."
-                    errorMessage=""
-                    onChange={() => {}}
-                    className="w-full text-white mt-2"
-                    value=""
-                /> */}
-
                 <Typografy align="left" children="Monte seu planejamento:" color="white" fontWeight={500} type="description" />
 
                 {showEditor && (

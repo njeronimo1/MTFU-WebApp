@@ -71,7 +71,7 @@ export function Project(){
     // const [searchText, setSearchText] = useState(urlParameter);
 
     // Queries
-    const {data: projects, isLoading} = useQuery({ 
+    const {data: projects} = useQuery({ 
         queryKey: ['projects', urlParameter, urlCategory, urlStatus, page], 
         queryFn: async () => {
             return await getProjects({pageNumber: page, pageSize: 10, category: urlCategory, searchText: urlParameter, status: urlStatus});

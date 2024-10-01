@@ -20,7 +20,7 @@ interface CardProjectProps{
     users?: string[],
 }
 
-export function CardProject({projectId, title, description, dateDelivery, sprints, categoria, users}:CardProjectProps){
+export function CardProject({projectId, title, description, sprints, categoria, users}:CardProjectProps){
     const navigate = useNavigate();
 
     return(
