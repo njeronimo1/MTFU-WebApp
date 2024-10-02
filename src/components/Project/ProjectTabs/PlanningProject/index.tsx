@@ -27,16 +27,27 @@ import { SaveAltersPlanningType, UpdateAltersPlanningType } from "./planning.typ
 interface PlanningProject {
     projectId: string;
     setTabActive: (e: tabs) => void;
+    tabActive: string
 }
 
-export function PlanningProject({projectId, setTabActive} : PlanningProject){
+export function PlanningProject({projectId, setTabActive, tabActive} : PlanningProject){
 
     const navigate = useNavigate();
 
-    const {data: planning} = useQuery({ 
-        queryKey: ['planning'], 
+    const {data: planning, isPending, isLoading} = useQuery({ 
+        queryKey: ['planning', tabActive], 
         queryFn: async () => {
-            return await GetPlanningData(Number(projectId));
+            let query = await GetPlanningData(Number(projectId));
+            console.log(query);
+
+            if(query.planningDTO){
+                setContentEditor(JSON.parse(query.planningDTO.planningDescription));
+                setLinkDocumentation(query.planningDTO.documentationLink);
+
+                setShowEditor(true);
+            }
+
+            return query;
         },
         // placeholderData: keepPreviousData,
     })
@@ -49,29 +60,12 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
     // get planning
     
 
-    useEffect(() => {
-        if(contentEditor.length > 0){
-            localStorage.setItem('editor', JSON.stringify(contentEditor));
-        }
+    // useEffect(() => {
+    //     if(contentEditor.length > 0){
+    //         localStorage.setItem('editor', JSON.stringify(contentEditor));
+    //     }
          
-    }, [contentEditor]);
-
-    useEffect(() => {
-        const editor = planning?.planningDTO.planningDescription;
-        // const editor = localStorage.getItem('editor');
-        if(editor){
-            const data = JSON.parse(editor);
-            setContentEditor(data);
-            
-            setShowEditor(true);
-        }else{
-            setShowEditor(true);
-        }
-
-        if(planning?.planningDTO.documentationLink){
-            setLinkDocumentation(planning?.planningDTO.documentationLink);
-        }
-    }, [planning, projectId]);
+    // }, [contentEditor])
 
 
     async function avanceFase(){
@@ -97,10 +91,8 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
             
         },
         onSuccess(data) {
-            setLinkDocumentation(data.documentationLink);
-            setContentEditor(JSON.parse(data.planningDescription));
-
             toast.success('Dados salvos com sucesso!');
+
         },
         onError(error) {
             toast.error(error.message);
@@ -112,8 +104,6 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
             return UpdateAltersPlanning(data);
         },
         onSuccess(data) {
-            setLinkDocumentation(data.documentationLink);
-            setContentEditor(JSON.parse(data.planningDescription));
 
             toast.success('Dados salvos com sucesso!');
         },
@@ -154,6 +144,12 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
         // setOpenModalAvanceFase(false);
     }
 
+    if(isLoading){
+        return(
+            <div className="text-white">carregano</div>
+        )
+        
+    }
 
     return(
         <div className="flex flex-col gap-2 mt-0 relative">
@@ -204,9 +200,7 @@ export function PlanningProject({projectId, setTabActive} : PlanningProject){
                     <div className="mt-2">
                         <Editor initialContent={contentEditor} onChangeFn={setContentEditor} />
                     </div>
-                    
                 )}  
-                
             </div>
 
             <div className="flex w-full justify-between mt-2">

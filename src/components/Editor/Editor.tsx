@@ -19,9 +19,6 @@ export function Editor({onChangeFn, initialContent, editable} : EditorProps) {
     const editor = useCreateBlockNote({
         initialContent: initialContent ? JSON.parse(initialContent) : undefined,
     })
-
-    console.log(initialContent);
-    
     
     return(
         <BlockNoteView editor={editor} editable={editable} onChange={() => {onChangeFn(JSON.stringify(editor.topLevelBlocks, null, 2))}} theme="dark" />

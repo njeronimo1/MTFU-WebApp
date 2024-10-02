@@ -147,6 +147,7 @@ export function Development({projectId, setTabActive}:DevelopmentProject){
              </div>
              <div className="text-white cursor-pointer hover:opacity-65 transition-opacity">Ver mais</div>
 
+             <Typografy align="left" children="Modulos de desenvolvimento:" color="white" fontWeight={500} type="title" />
 
 
 

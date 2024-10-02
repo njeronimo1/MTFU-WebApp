@@ -215,7 +215,7 @@ export function ProjectDetail(){
                 
 
                 <TabsContent value="planning">
-                    <PlanningProject projectId={id ? id : ''} setTabActive={setTabActive} />
+                    <PlanningProject projectId={id ? id : ''} setTabActive={setTabActive} tabActive={tabActive}/>
                 </TabsContent>
                 <TabsContent value="analysis">
                    <AnalysisProject projectId={id ? id : ''} setTabActive={setTabActive} />

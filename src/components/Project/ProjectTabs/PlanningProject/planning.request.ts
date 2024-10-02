@@ -9,7 +9,7 @@ export const SaveAltersPlanning = async (data: SaveAltersPlanningType): Promise<
 }
 
 export const UpdateAltersPlanning = async (data: UpdateAltersPlanningType): Promise<UpdateAltersPlanningType> => {
-    const responsePlanning: UpdateAltersPlanningType = await api.patch<UpdateAltersPlanningType>(`${route}/upate`, data).then((res) => { return res.data });
+    const responsePlanning: UpdateAltersPlanningType = await api.patch<UpdateAltersPlanningType>(`${route}/update`, data).then((res) => { return res.data });
     return responsePlanning
 }
 
