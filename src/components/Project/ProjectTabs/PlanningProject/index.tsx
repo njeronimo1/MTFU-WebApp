@@ -20,7 +20,7 @@ import { tabs } from "@/pages/app/Project/projectDetail";
 import { Clock } from "phosphor-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { GetPlanningData, SaveAltersPlanning, UpdateAltersPlanning } from "./planning.request";
+import { GetPlanningData, GetSprintPlanningData, SaveAltersPlanning, UpdateAltersPlanning } from "./planning.request";
 import { SaveAltersPlanningType, UpdateAltersPlanningType } from "./planning.types";
   
 
@@ -38,11 +38,11 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
         queryKey: ['planning', tabActive], 
         queryFn: async () => {
             let query = await GetPlanningData(Number(projectId));
-            console.log(query);
+            // console.log(query);
 
-            if(query.planningDTO){
-                setContentEditor(JSON.parse(query.planningDTO.planningDescription));
-                setLinkDocumentation(query.planningDTO.documentationLink);
+            if(query.planningId){
+                setContentEditor(JSON.parse(query.planningDescription));
+                setLinkDocumentation(query.documentationLink);
 
                 setShowEditor(true);
             }
@@ -52,10 +52,20 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
         // placeholderData: keepPreviousData,
     })
 
+    const { data: sprintPlanning } = useQuery({
+        queryKey: ['sprintPlanning'],
+        queryFn: async () => {
+            let query = await GetSprintPlanningData(planning?.planningId ? planning.planningId : 0);
+
+            return query;
+        }
+    })
+
     const [contentEditor, setContentEditor] = useState<string>('');
     const [linkDocumentation, setLinkDocumentation] = useState<string>('');
     const [showEditor, setShowEditor] = useState(false);
     const [openModalAvanceFase, setOpenModalAvanceFase] = useState(false);
+    const [valueFilterSprint, setValueFilterSprint] = useState('');
 
     // get planning
     
@@ -125,7 +135,7 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
             planningId: Number(projectId) 
         }
 
-        if(planning?.planningDTO.planningId){
+        if(planning?.planningId){
             mutationUpdateAlters.mutate(dataUpdate);
         }else{
             mutationSaveAlters.mutate(data);
@@ -143,6 +153,23 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
 
         // setOpenModalAvanceFase(false);
     }
+
+    useEffect(() => {
+        if(valueFilterSprint !== ""){
+            switch(valueFilterSprint){
+                case "1": {
+                    let filterSprint = 0;
+                    break;
+                }
+                case "2": {
+                    break;
+                }
+                case "3": {
+                    break;
+                }
+            }
+        }
+    }, [valueFilterSprint])
 
     if(isLoading){
         return(
@@ -207,7 +234,7 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
                 <Typografy align="left" children="Sprints" color="white" fontWeight={500} type="title" />
                 <div className="flex gap-3 w-1/4 justify-end">
                     <Typografy align="left" children="Filtrar por:" color="white" fontWeight={400} type="medium" />
-                    <Select>
+                    <Select onValueChange={(e) => setValueFilterSprint(e)}>
                         <SelectTrigger className="w-2/6 bg-gray_fundo_sec_mtfu text-white
                             border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3 h-[1.8rem]">
                             <SelectValue placeholder="Todas" />
@@ -217,7 +244,10 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
                                 <SelectItem value="1" className="hover:bg-mtfu">Todas</SelectItem>
                             </SelectGroup>
                             <SelectGroup>
-                                <SelectItem value="2" className="hover:bg-mtfu">Ativa</SelectItem>
+                                <SelectItem value="2" className="hover:bg-mtfu">Ativas</SelectItem>
+                            </SelectGroup>
+                            <SelectGroup>
+                                <SelectItem value="3" className="hover:bg-mtfu">Pendentes</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -229,25 +259,12 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
             <Separator  className="bg-separator_app" />
 
             <div className="w-full overflow-x-scroll flex gap-4 py-2 items-center justify-start">
-                <CardSprint projectId={projectId} faseId={1} sprintId={1} description="
-                Sprint criada com objetivo de finalizar a parte inicial do More than follow up" status="Em andamento"
-                title="Sprint 1 - Planejamento MTFU" users={[]}/>
-
-                <CardSprint projectId={projectId} faseId={1} sprintId={1} description="
-                Sprint criada com objetivo de finalizar a parte inicial do More than follow up" status="Em andamento"
-                title="Sprint 1 - Planejamento MTFU" users={[]}/>
-
-                <CardSprint projectId={projectId} faseId={1} sprintId={1} description="
-                Sprint criada com objetivo de finalizar a parte inicial do More than follow up" status="Em andamento"
-                title="Sprint 1 - Planejamento MTFU" users={[]}/>
-
-                <CardSprint projectId={projectId} faseId={1} sprintId={1} description="
-                Sprint criada com objetivo de finalizar a parte inicial do More than follow up" status="Em andamento"
-                title="Sprint 1 - Planejamento MTFU" users={[]}/>
-                
-                <CardSprint projectId={projectId} faseId={1} sprintId={1} description="
-                Sprint criada com objetivo de finalizar a parte inicial do More than follow up" status="Em andamento"
-                title="Sprint 1 - Planejamento MTFU" users={[]}/>
+                {sprintPlanning?.map((sp) => {
+                    return(
+                        <CardSprint projectId={projectId} faseId={1} sprintId={sp.sprintId} description={sp.description} 
+                        status={sp.status} title={sp.title} users={sp.sprint_Users}/>
+                    )
+                })}
             </div>
 
             <div className="sticky bottom-2 w-full flex justify-end py-2 gap-2">
