@@ -14,10 +14,7 @@ export interface UpdateAltersPlanningType{
 
 
 export interface PlanningDataType{
-    planningDTO: {
-        planningId: number,
-        documentationLink: string,
-        planningDescription: string
-    }
-    totalSprint: number
+    planningId: number,
+    documentationLink: string,
+    planningDescription: string
 }
