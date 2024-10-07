@@ -58,7 +58,7 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
     const [sprintData, setSprintData] = useState<Sprint[]>();
 
     //filter sprint
-    const [filterSprint, setFilterSprint] = useState(1);
+    const [filterSprint, setFilterSprint] = useState(0);
 
     const { data: sprintsPlanning } = useQuery({
         queryKey: ['sprintsPlanning', tabActive, planning?.planningId, filterSprint],
