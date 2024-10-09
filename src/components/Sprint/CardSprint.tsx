@@ -50,19 +50,25 @@ export function CardSprint({projectId, sprintId, faseId, title, description, sta
                             </div>
 
                             <div className="flex pt-2 w-2/4 justify-end">
-                                {users?.map((usr) => {
+
+                                {users?.map((usr, i) => {
                                     return(
                                         <div className="ml-[-0.5rem]">
-                                            <Avatar src="" alt={usr.split(' ')[0].slice(0, 1) + usr.split(' ')[1].slice(0, 1)} className="border-2"/>
-                                        </div>        
-                                    )
+                                            {i <= 2 ? <Avatar alt={usr.split(' ')[0].slice(0, 1) + usr.split(' ')[1].slice(0, 1)}  /> : <></>}
+                                            
+                                        </div>
+                                    ) 
                                 })}
-                                {users && users?.length > 4 && (
-                                    <div className="flex cursor-default border-2 border-gray_fundo_sec_mtfu items-center justify-center text-center ml-[-0.5rem] rounded-full bg-[#300076] w-[2.55rem] h-[2.55rem]">
-                                        <Typografy align="center" children="+1" color="white" fontWeight={500} type="medium" />
-                                    </div>  
-                                )}
-                                                              
+                                
+                                {/* <div className="ml-[-0.5rem]">
+                                    <Avatar src="" alt="Nicolas" className="border-2"/>
+                                </div>
+                                <div className="ml-[-0.5rem]">
+                                    <Avatar src="" alt="Nicolas" />
+                                </div> */}
+                                <div className="flex cursor-default  items-center justify-center text-center ml-[-0.5rem] rounded-full bg-[#300076] w-[2.7rem] h-[2.75rem]">
+                                    <Typografy align="center" children="+1" color="white" fontWeight={500} type="medium" />
+                                </div>                                
                             </div>
                         </div>
                     </div>

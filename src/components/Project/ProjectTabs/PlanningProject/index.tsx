@@ -20,8 +20,11 @@ import { tabs } from "@/pages/app/Project/projectDetail";
 import { Clock } from "phosphor-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { GetPlanningData, GetSprintPlanningData, SaveAltersPlanning, UpdateAltersPlanning } from "./planning.request";
-import { SaveAltersPlanningType, UpdateAltersPlanningType } from "./planning.types";
+
+import { GetPlanningData, GetSprintsPlanningData, SaveAltersPlanning, UpdateAltersPlanning } from "./planning.request";
+import { PlanningDataType, SaveAltersPlanningType, UpdateAltersPlanningType } from "./planning.types";
+import { Sprint } from "@/pages/app/Project/projectTypes";
+
   
 
 interface PlanningProject {
@@ -34,13 +37,17 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
 
     const navigate = useNavigate();
 
+
+
     const {data: planning, isPending, isLoading} = useQuery({ 
         queryKey: ['planning', tabActive], 
         queryFn: async () => {
-            let query = await GetPlanningData(Number(projectId));
-            // console.log(query);
 
-            if(query.planningId){
+            const query = await GetPlanningData(Number(projectId));
+
+            if(query){
+                //se der erro novamente, utilizar o JSON.stringify pra converter o mock de string do banco
+
                 setContentEditor(JSON.parse(query.planningDescription));
                 setLinkDocumentation(query.documentationLink);
 
@@ -52,12 +59,33 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
         // placeholderData: keepPreviousData,
     })
 
-    const { data: sprintPlanning } = useQuery({
-        queryKey: ['sprintPlanning'],
-        queryFn: async () => {
-            let query = await GetSprintPlanningData(planning?.planningId ? planning.planningId : 0);
 
-            return query;
+    const [sprintData, setSprintData] = useState<Sprint[]>();
+
+    //filter sprint
+    const [filterSprint, setFilterSprint] = useState(0);
+
+    const { data: sprintsPlanning } = useQuery({
+        queryKey: ['sprintsPlanning', tabActive, planning?.planningId, filterSprint],
+        queryFn: async () => {
+        const sprints = await GetSprintsPlanningData(planning?.planningId ? planning.planningId : 0);
+        // planning?.planningId ? planning.planningId : 
+
+            if(filterSprint == 0){
+                setSprintData(sprints);
+                return sprints
+            }
+
+            if(filterSprint == 1){
+                setSprintData(sprints.filter(spt => spt.status == "Concluído"));
+                return sprints
+            }
+
+            if(filterSprint == 2){
+                setSprintData(sprints.filter(spt => spt.status == "Pendente"));
+                return sprints
+            }
+
         }
     })
 
@@ -66,6 +94,9 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
     const [showEditor, setShowEditor] = useState(false);
     const [openModalAvanceFase, setOpenModalAvanceFase] = useState(false);
     const [valueFilterSprint, setValueFilterSprint] = useState('');
+
+    
+
 
     // get planning
     
@@ -76,7 +107,6 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
     //     }
          
     // }, [contentEditor])
-
 
     async function avanceFase(){
         const avance = await toast.promise(
@@ -154,32 +184,17 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
         // setOpenModalAvanceFase(false);
     }
 
-    useEffect(() => {
-        if(valueFilterSprint !== ""){
-            switch(valueFilterSprint){
-                case "1": {
-                    let filterSprint = 0;
-                    break;
-                }
-                case "2": {
-                    break;
-                }
-                case "3": {
-                    break;
-                }
-            }
-        }
-    }, [valueFilterSprint])
 
-    if(isLoading){
-        return(
-            <div className="text-white">carregano</div>
-        )
+    // if(isLoading){    
+    //     return(
+    //         <div className="text-white">carregano</div>
+    //     )
+
         
-    }
+    // }
 
     return(
-        <div className="flex flex-col gap-2 mt-0 relative">
+        <div className="flex flex-col gap-2 mt-0 relative ">
             <div className="sticky top-12 flex gap-2 py-4 z-[50] flex-col bg-gray_fundo_sec_mtfu">
                 <Typografy align="left" children="Planejamento" color="white" fontWeight={500} type="title" />
                 <Typografy align="left" children="Todo projeto necessita de um planejamento, utilize essa aba para colocar em ordem tudo que será feito daqui em diante."
@@ -225,29 +240,33 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
 
                 {showEditor && (
                     <div className="mt-2">
-                        <Editor initialContent={contentEditor} onChangeFn={setContentEditor} />
+                        <Editor initialContent={contentEditor.length > 0 ? contentEditor : undefined} onChangeFn={setContentEditor} />
                     </div>
-                )}  
+                )} 
             </div>
 
             <div className="flex w-full justify-between mt-2">
                 <Typografy align="left" children="Sprints" color="white" fontWeight={500} type="title" />
                 <div className="flex gap-3 w-1/4 justify-end">
                     <Typografy align="left" children="Filtrar por:" color="white" fontWeight={400} type="medium" />
-                    <Select onValueChange={(e) => setValueFilterSprint(e)}>
+
+                    <Select onValueChange={(e) => {setFilterSprint(Number(e))}}>
+
                         <SelectTrigger className="w-2/6 bg-gray_fundo_sec_mtfu text-white
                             border-mtfu hover:bg-mtfu focus:ring-mtfu focus:ring-offset-3 h-[1.8rem]">
                             <SelectValue placeholder="Todas" />
                         </SelectTrigger>
                         <SelectContent className="z-50 bg-gray_fundo_mtfu text-white border-mtfu">
                             <SelectGroup>
-                                <SelectItem value="1" className="hover:bg-mtfu">Todas</SelectItem>
+                                <SelectItem value="0" className="hover:bg-mtfu">Todas</SelectItem>
                             </SelectGroup>
                             <SelectGroup>
-                                <SelectItem value="2" className="hover:bg-mtfu">Ativas</SelectItem>
+
+                                <SelectItem value="1" className="hover:bg-mtfu">Concluída</SelectItem>
                             </SelectGroup>
                             <SelectGroup>
-                                <SelectItem value="3" className="hover:bg-mtfu">Pendentes</SelectItem>
+                                <SelectItem value="2" className="hover:bg-mtfu">Pendente</SelectItem>
+
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -258,11 +277,14 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
 
             <Separator  className="bg-separator_app" />
 
-            <div className="w-full overflow-x-scroll flex gap-4 py-2 items-center justify-start">
-                {sprintPlanning?.map((sp) => {
-                    return(
-                        <CardSprint projectId={projectId} faseId={1} sprintId={sp.sprintId} description={sp.description} 
-                        status={sp.status} title={sp.title} users={sp.sprint_Users}/>
+
+            <div className="w-full flex gap-4 py-2 items-center justify-start overflow-x-auto scrollbar
+                                scrollbar-track-gray_fundo_mtfu scrollbar-thumb-gray_fundo_sec_mtfu">
+                {sprintData?.map((sp) => {
+                    return (
+                        <CardSprint projectId={projectId} faseId={1} sprintId={sp.sprintId} description={sp.description} status={sp.status}
+                        title={sp.title} users={sp.sprint_Users}/>
+
                     )
                 })}
             </div>

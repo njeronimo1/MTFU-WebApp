@@ -57,3 +57,14 @@ export interface StatusResource{
     statusProjectId: number,
     name: string
 }
+
+export interface Sprint {
+    sprintId: number,
+    title: string,
+    description: string,
+    sprintScorte: number,
+    startDate: string,
+    endDate: string,
+    status: string,
+    sprint_Users: string[]
+}

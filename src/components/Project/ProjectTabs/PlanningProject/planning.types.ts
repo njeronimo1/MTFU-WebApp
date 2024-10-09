@@ -17,6 +17,7 @@ export interface PlanningDataType{
     planningId: number,
     documentationLink: string,
     planningDescription: string
+
 }
 
 export interface Sprint{
@@ -28,4 +29,5 @@ export interface Sprint{
     endDate: string,
     status: string,
     sprint_Users: string[],
+
 }

@@ -1,5 +1,7 @@
 import { api } from "@/lib/axios"
-import { PlanningDataType, SaveAltersPlanningType, Sprint, UpdateAltersPlanningType } from "./planning.types"
+
+import { PlanningDataType, SaveAltersPlanningType, UpdateAltersPlanningType } from "./planning.types"
+import { Sprint } from "@/pages/app/Project/projectTypes";
 
 const route = '/Planning'
 
@@ -19,7 +21,8 @@ export const GetPlanningData = async (projectId: number): Promise<PlanningDataTy
     return planningData
 }
 
-export const GetSprintPlanningData = async (planningId: number): Promise<Sprint[]> => {
+export const GetSprintsPlanningData = async (planningId: number): Promise<Sprint[]> => {
+
     const sprintPlanningData = await api.get<Sprint[]>(`/Sprint/getSprint?planningId=${planningId}`).then((res) => { return res.data});
 
     return sprintPlanningData
