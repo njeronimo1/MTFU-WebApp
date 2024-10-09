@@ -1,7 +1,7 @@
 import { CardProject } from "@/components/Project/CardProject"
 import { Pagination } from "@/components/Pagination"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
-import { ArrowSquareOut, MagnifyingGlass } from "phosphor-react"
+import { ArrowSquareOut, Backspace, MagnifyingGlass } from "phosphor-react"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getProjects, getResourcesForProject } from "./project.request"
 import { useEffect, useState } from "react"
@@ -43,6 +43,7 @@ import { Button, Input, Typografy } from "@mtfu/react"
 
 //img
 import search from '../../../assets/search.png'
+import { colors } from "@mtfu/tokens"
 
   
 const filterFormSchema = z.object({
@@ -56,6 +57,7 @@ export function Project(){
     const queryClient = useQueryClient()
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const [showBtnResetFilters, setShowBtnResetFilters] = useState(false);
 
     const urlParameter = searchParams.get('parameter') ?? ''
     const urlCategory = searchParams.get('category') ?? ''
@@ -63,12 +65,8 @@ export function Project(){
 
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
 
-    // const [responsiblesList, setResponsiblesList] = useState<ResponsibleResource[]>([]);
     const [categoriesList, setCategoriesList] = useState<CategoriesResource[]>([]);
     const [statusList, setStatusList] = useState<StatusResource[]>([]);
-    // const [category, setCategory] = useState(urlCategory);
-    // const [status, setStatus] = useState(urlStatus);
-    // const [searchText, setSearchText] = useState(urlParameter);
 
     // Queries
     const {data: projects} = useQuery({ 
@@ -76,7 +74,7 @@ export function Project(){
         queryFn: async () => {
             return await getProjects({pageNumber: page, pageSize: 10, category: urlCategory, searchText: urlParameter, status: urlStatus});
         },
-        staleTime: 5 * 1000,
+        staleTime: 60 * 5000,
         placeholderData: (previousData, previousQuery) => previousData,
     })
     
@@ -100,6 +98,7 @@ export function Project(){
             status: urlStatus,
             search: urlParameter,
         },
+        
       });
 
     function handleFilter(data: z.infer<typeof filterFormSchema>) {
@@ -112,7 +111,38 @@ export function Project(){
     
           return params
         })
-      }
+
+        
+    }
+
+    function removeFilters(){
+        setShowBtnResetFilters(false);
+        setSearchParams(params => {
+            params.set('page', '1')
+            params.delete('parameter');
+            params.delete('category');
+            params.delete('status');
+      
+            return params
+          })
+
+          form.reset({
+            category: '',
+            search: '',
+            status: ''
+          })
+    }
+
+    useEffect(() => {
+        const parameter = searchParams.get('parameter');
+        const category = searchParams.get('category');
+        const status = searchParams.get('status');
+
+
+        if(parameter !== null || category !== null || status !== null){
+            setShowBtnResetFilters(true);
+        }
+    }, [searchParams])
 
     return(
         <>
@@ -172,7 +202,7 @@ export function Project(){
                                     name="category"
                                     render={({ field }) => (
                                         <FormItem>
-                                        <Select onValueChange={field.onChange} defaultValue={urlCategory}>
+                                        <Select onValueChange={field.onChange} defaultValue={urlCategory} value={field.value}>
                                             <SelectTrigger className="w-full lg:w-52 bg-white pl-3 text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
                                                 <SelectValue placeholder="Selecione uma categoria" className="text-gray-500"/>
                                             </SelectTrigger>
@@ -202,7 +232,7 @@ export function Project(){
                                     name="status"
                                     render={({ field }) => (
                                         <FormItem>
-                                        <Select onValueChange={field.onChange} defaultValue={urlStatus}>
+                                        <Select onValueChange={field.onChange} defaultValue={urlStatus} value={field.value}>
                                             <SelectTrigger className="w-full lg:w-52 bg-white text-gray-500 focus:ring-gray-500 focus:ring-offset-3">
                                                 <SelectValue placeholder="Selecione um status" className="text-gray-500"/>
                                             </SelectTrigger>
@@ -226,6 +256,14 @@ export function Project(){
                             <div className="relative top-[1.3rem]">
                                 <Button variant="normal" className="cursor-pointer h-10" type="submit" radius="4" textAlign="center" children={<MagnifyingGlass size={20} />}></Button>
                             </div>
+                            {
+                                showBtnResetFilters && (
+                                    <div className="relative top-[1.3rem]">
+                                        <Button onClick={removeFilters} variant="normal" className="cursor-pointer h-10" type="button" radius="4" textAlign="center"  children={<div className="flex gap-1 items-center"><Backspace size={24} color={"white"} /><span className="text-sm font-medium">Remover filtros</span></div>}></Button>
+                                    </div>
+                                )
+                            }
+                            
                         </div>
                         <div className="w-full lg:w-1/4 flex lg:justify-end mt-4 lg:mt-0" onClick={() => {navigate('create-project')}}>
                             <Button  variant="normal" textAlign="center" type="button" radius="8">
@@ -256,7 +294,7 @@ export function Project(){
                                         dateDelivery={project.endDate}
                                         description={project.description}
                                         projectId={project.projectId}
-                                        sprints={0}
+                                        status={project.status}
                                         key={project.projectId}
                                         users={project.projects_Users}
                                     />
