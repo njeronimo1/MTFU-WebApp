@@ -76,7 +76,8 @@ export function Project(){
         queryFn: async () => {
             return await getProjects({pageNumber: page, pageSize: 10, category: urlCategory, searchText: urlParameter, status: urlStatus});
         },
-        placeholderData: keepPreviousData,
+        staleTime: 5 * 1000,
+        placeholderData: (previousData, previousQuery) => previousData,
     })
     
     const {data: resourcesForProject} = useQuery({ 
