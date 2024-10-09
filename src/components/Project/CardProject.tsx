@@ -47,17 +47,17 @@ export function CardProject({projectId, title, description, status, categoria, u
                                                 <HoverCardTrigger>
                                                     <Avatar alt={usr.split(' ')[0].slice(0, 1) + usr.split(' ')[1].slice(0, 1)} />
                                                 </HoverCardTrigger>
-                                                <HoverCardContent className="w-50 bg-[#09090b] text-white border-0 shadow shadow-mtfu  p-2">
+                                                <HoverCardContent className="w-50 bg-[#09090b]  border-0 shadow shadow-mtfu  p-2">
                                                 <div className="flex justify-between items-center space-x-4">
                                                     <div className="flex flex-col items-center bg-mtfu p-2 rounded-sm">
-                                                        <FileCss size={32} />
-                                                        <span className="text-white text-xs">Front-end</span>
+                                                        <FileCss size={32} color="white"/>
+                                                        <span className="text-white text-xs font-light">Front-end</span>
                                                     </div>
                                                     
                                                     {/* <Avatar alt={usr.split(' ')[0].slice(0, 1) + usr.split(' ')[1].slice(0, 1)} /> */}
                                                     
                                                     <div className="space-y-1">
-                                                        <p className="text-sm font-medium">
+                                                        <p className="text-sm font-medium text-white">
                                                             {usr}
                                                         </p>
                                                         <div className="flex items-center pt-0">
