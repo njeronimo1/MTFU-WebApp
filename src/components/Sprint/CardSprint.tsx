@@ -27,7 +27,7 @@ export function CardSprint({projectId, sprintId, faseId, title, description, sta
             <Tooltip>
                 <TooltipTrigger>
                     <div onClick={() => {navigate(`/sprint/${sprintId}`)}} 
-                    className="w-full min-w-[22rem] rounded-xl bg-gray_fundo_mtfu py-3 pl-3 pr-3 hover:bg-gray_hover cursor-pointer ease-in duration-300">
+                    className="w-full min-w-[22rem] min-h-44 rounded-xl bg-gray_fundo_mtfu py-3 pl-3 pr-3 hover:bg-gray_hover cursor-pointer ease-in duration-300">
                         <header className="w-full flex justify-between">
                             <Typografy align="left" children={title} color="white" fontWeight={500} type="title" />
 
@@ -50,6 +50,7 @@ export function CardSprint({projectId, sprintId, faseId, title, description, sta
                             </div>
 
                             <div className="flex pt-2 w-2/4 justify-end">
+
                                 {users?.map((usr, i) => {
                                     return(
                                         <div className="ml-[-0.5rem]">

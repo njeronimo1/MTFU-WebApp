@@ -87,6 +87,7 @@ export function PlanningProject({projectId, setTabActive, tabActive} : PlanningP
     const [linkDocumentation, setLinkDocumentation] = useState<string>('');
     const [showEditor, setShowEditor] = useState(false);
     const [openModalAvanceFase, setOpenModalAvanceFase] = useState(false);
+    const [valueFilterSprint, setValueFilterSprint] = useState('');
 
     
 
